@@ -1,6 +1,7 @@
 import abc
 import enum
 from collections import UserDict
+from pprint import pprint
 from typing import Any, Callable, List, Optional
 
 import click
@@ -243,7 +244,6 @@ class MultiselectMenuModel(BaseMenuModel):
         for ch_entry in chosen_entries:
             if ch_entry.pydantic_v1:
                 context.pydanticv1 = True
-
         return context
 
 

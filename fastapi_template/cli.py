@@ -1,6 +1,7 @@
 import re
 import shutil
 from importlib.metadata import version
+from pprint import pprint
 from typing import Any, Callable, List, Optional
 
 from click import Command, Option
@@ -66,6 +67,12 @@ def check_orm(allowed_values: List[str]) -> Callable[[BuilderContext], bool]:
 
     return checker
 
+def always_hidden() -> Callable[[BuilderContext], bool]:
+    def checker(ctx: BuilderContext) -> bool:
+        return 1 == 1
+
+    return checker
+
 
 api_menu = SingularMenuModel(
     title="API type",
@@ -89,6 +96,7 @@ api_menu = SingularMenuModel(
             code="graphql",
             user_view="GrapQL API",
             pydantic_v1=True,
+            is_hidden=always_hidden(),
             description=(
                 "Choose this option if you want to create a service with {name}.\n"
                 "It's more suitable for services with {reason} and deep nesting.".format(
@@ -230,6 +238,7 @@ ci_menu = SingularMenuModel(
                     )
                 )
             ),
+            is_hidden=always_hidden(),
         ),
     ],
 )
@@ -264,6 +273,7 @@ orm_menu = SingularMenuModel(
                     feature=colored("SQLAlchemy-based", color="cyan"),
                 )
             ),
+            is_hidden=always_hidden(),
         ),
         MenuEntry(
             code="sqlalchemy",
@@ -286,11 +296,13 @@ orm_menu = SingularMenuModel(
                     feature=colored("fully-async", color="cyan"),
                 )
             ),
+            is_hidden=always_hidden(),
         ),
         MenuEntry(
             code="psycopg",
             user_view="PsycoPG",
-            is_hidden=check_db(["postgresql"]),
+            # is_hidden=check_db(["postgresql"]),
+            is_hidden=always_hidden(),
             description=(
                 "{what} is a {feature} for Postgresql.\n"
                 "It's async and can work with pydantic types.".format(
@@ -303,7 +315,8 @@ orm_menu = SingularMenuModel(
             code="piccolo",
             user_view="Piccolo",
             pydantic_v1=True,
-            is_hidden=check_db(["postgresql", "sqlite"]),
+            # is_hidden=check_db(["postgresql", "sqlite"]),
+            is_hidden=always_hidden(),
             description=(
                 "{what} is a great ORM for Postgresql and SQLite.\n"
                 "It's very flexible and fully {feature}.".format(
@@ -327,6 +340,7 @@ features_menu = MultiselectMenuModel(
             cli_name="pydantic-v1",
             user_view="Use older version of pydantic",
             description="Use pydantic version ^1 instead of ^2",
+            is_hidden=always_hidden(),
         ),
         MenuEntry(
             code="enable_redis",
@@ -407,6 +421,7 @@ features_menu = MultiselectMenuModel(
             code="enable_kube",
             cli_name="kube",
             user_view="Add kubernetes configs",
+            is_hidden=always_hidden(),
             description=(
                 "This option will add {what} manifests to your project.\n"
                 "But this option is {warn}, since if you want to use k8s, please create helm.".format(
@@ -456,6 +471,7 @@ features_menu = MultiselectMenuModel(
             code="prometheus_enabled",
             cli_name="prometheus",
             user_view="Add prometheus compatible metrics",
+            is_hidden=always_hidden(),
             description=(
                 "{name} is a system that can collect metrics.\n"
                 "This option will add a {path} route where you can find you app's metrics.".format(
@@ -500,6 +516,7 @@ features_menu = MultiselectMenuModel(
             code="otlp_enabled",
             cli_name="opentelemetry",
             user_view="Add opentelemetry integration",
+            is_hidden=always_hidden(),
             description=(
                 "{what} is a new way to collect telemetry.\n"
                 "It sends {why} and everything in collectors. Compatible with {comp}.".format(
