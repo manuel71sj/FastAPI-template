@@ -166,7 +166,7 @@ db_menu = SingularMenuModel(
             ),
             additional_info=Database(
                 name="mysql",
-                image="bitnami/mysql:8.0.30",
+                image="bitnami/mysql:8.0.35",
                 async_driver="mysql+aiomysql",
                 driver_short="mysql",
                 driver="mysql",
@@ -186,7 +186,7 @@ db_menu = SingularMenuModel(
             ),
             additional_info=Database(
                 name="postgresql",
-                image="postgres:13.8-bullseye",
+                image="postgres:15.5-bullseye",
                 async_driver="postgresql+asyncpg",
                 driver_short="postgres",
                 driver="postgresql",

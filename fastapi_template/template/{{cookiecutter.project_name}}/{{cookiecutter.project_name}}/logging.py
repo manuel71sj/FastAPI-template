@@ -1,3 +1,4 @@
+import inspect
 import logging
 import sys
 from typing import Any, Union
@@ -28,15 +29,21 @@ class InterceptHandler(logging.Handler):
 
         :param record: record to log.
         """
+        # Get corresponding Loguru level if it exists.
+        level: str | int
         try:
-            level: Union[str, int] = logger.level(record.levelname).name
+            level = logger.level(record.levelname).name
         except ValueError:
             level = record.levelno
 
         # Find caller from where originated the logged message
-        frame, depth = logging.currentframe(), 2
-        while frame.f_code.co_filename == logging.__file__:
-            frame = frame.f_back  # type: ignore
+        # frame, depth = logging.currentframe(), 2
+        # while frame.f_code.co_filename == logging.__file__:
+        #     frame = frame.f_back  # type: ignore
+        #     depth += 1
+        frame, depth = inspect.currentframe(), 0
+        while frame and (depth == 0 or frame.f_code.co_filename == logging.__file__):
+            frame = frame.f_back
             depth += 1
 
         logger.opt(depth=depth, exception=record.exc_info).log(

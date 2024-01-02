@@ -164,7 +164,7 @@ services:
   {%- if cookiecutter.enable_redis == "True" %}
 
   redis:
-    image: bitnami/redis:6.2.5
+    image: bitnami/redis:6.2.14
     hostname: "{{cookiecutter.project_name}}-redis"
     restart: always
     environment:
@@ -179,7 +179,7 @@ services:
   {%- if cookiecutter.enable_rmq == "True" %}
 
   rmq:
-    image: rabbitmq:3.9.16-alpine
+    image: rabbitmq:3.12.11-alpine
     hostname: "{{cookiecutter.project_name}}-rmq"
     restart: always
     environment:
@@ -196,7 +196,7 @@ services:
   {%- if cookiecutter.enable_kafka == "True" %}
 
   zookeeper:
-    image: "bitnami/zookeeper:3.7.1"
+    image: "bitnami/zookeeper:3.7.2"
     hostname: "{{cookiecutter.project_name}}-zookeeper"
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
@@ -208,7 +208,7 @@ services:
       retries: 30
 
   kafka:
-    image: "bitnami/kafka:3.2.0"
+    image: "bitnami/kafka:3.6.1"
     hostname: "{{cookiecutter.project_name}}-kafka"
     environment:
       KAFKA_BROKER_ID: "1"
