@@ -73,7 +73,22 @@ ignore =
   ; too many no-cover comments.
   WPS403,
   ; No blank lines allowed after function docstring
-  D202
+  D202,
+  ;Missing docstring
+  D101,
+  D102,
+  D103,
+  ; other string does contain unindexed parameters
+  P103,
+  ; Found regular name with trailing underscore: logger_
+  WPS120,
+  ; Found nested function: wrapped
+  WPS430,
+  ; Found builtin shadowing: exit
+  WPS125,
+  ; Found commented out code
+  E800,
+
 
 per-file-ignores =
   ; all tests

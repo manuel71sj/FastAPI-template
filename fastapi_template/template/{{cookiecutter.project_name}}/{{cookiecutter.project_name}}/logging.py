@@ -16,6 +16,7 @@ from opentelemetry.trace import INVALID_SPAN, INVALID_SPAN_CONTEXT, get_current_
 from starlette.datastructures import URL
 
 orjson_options = orjson.OPT_NAIVE_UTC
+WIDTH = 180
 
 
 def json_default(value: Any) -> str:
@@ -25,14 +26,17 @@ def json_default(value: Any) -> str:
     return value
 
 
-def serialize(record: dict[str, Any]) -> str:
-    subset = {
+def format_record(record: dict[str, Any]) -> dict[str, Any]:
+    return {
         "timestamp": record["time"].isoformat(),
         "level": record["level"].name,
         "message": record["message"],
-        "source": f"{record['file'].name}:{record['function']}:{record['line']}",
+        "source": f"{record['file'].name}" f":{record['function']}" f":{record['line']}",  # noqa: WPS221
     }
 
+
+def serialize(record: dict[str, Any]) -> str:
+    subset = format_record(record)
     subset.update(record["extra"])
 
     return orjson.dumps(subset, option=orjson_options, default=json_default).decode()
@@ -108,11 +112,16 @@ def record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
             record["extra"]["trace_id"] = format(span_context.trace_id, "032x")
 
     if record["exception"]:
-        log_format = f"{log_format}{{exception}}"
+        log_format = f"{log_format}{{exception}}\n"
 
     if record["extra"].get("payload") is not None:
-        record["extra"]["payload"] = pformat(record["extra"]["payload"], indent=2, compact=True, width=180)
-        log_format += "    <red>payload={extra[payload]}</red>\n"
+        record["extra"]["payload"] = pformat(
+            record["extra"]["payload"],
+            indent=2,
+            compact=True,
+            width=WIDTH,
+        )
+        log_format = f"{log_format}>>    <red>payload={{extra[payload]}}</red>\n"
 
     return log_format
 
