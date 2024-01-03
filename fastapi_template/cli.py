@@ -484,6 +484,7 @@ features_menu = MultiselectMenuModel(
             code="sentry_enabled",
             cli_name="sentry",
             user_view="Add sentry integration",
+            is_hidden=always_hidden(),
             description=(
                 "{what} is super cool system that helps finding bugs.\n"
                 "This feature will add sentry integration to your project. ({warn}).".format(

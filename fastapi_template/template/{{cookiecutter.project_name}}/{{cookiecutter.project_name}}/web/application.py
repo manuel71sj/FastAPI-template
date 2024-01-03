@@ -33,6 +33,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 {%- if cookiecutter.enable_loguru == "True" %}
 from {{cookiecutter.project_name}}.logging import configure_logging
+from {{cookiecutter.project_name}}.middleware.log_middleware import LogMiddleware
 
 {%- endif %}
 
@@ -90,6 +91,8 @@ def get_app() -> FastAPI:
         openapi_url="/api/openapi.json",
         default_response_class=UJSONResponse,
     )
+
+    app.add_middleware(LogMiddleware)
 
     # Adds startup and shutdown events.
     register_startup_event(app)

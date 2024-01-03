@@ -1,8 +1,11 @@
+import functools
 import inspect
 import logging
 import sys
+from pprint import pformat
 from typing import Any, Union
 
+import orjson
 from loguru import logger
 from {{cookiecutter.project_name}}.settings import settings
 
@@ -10,6 +13,29 @@ from {{cookiecutter.project_name}}.settings import settings
 from opentelemetry.trace import INVALID_SPAN, INVALID_SPAN_CONTEXT, get_current_span
 
 {%- endif %}
+from starlette.datastructures import URL
+
+orjson_options = orjson.OPT_NAIVE_UTC
+
+
+def json_default(value: Any) -> str:
+    if isinstance(value, URL):
+        return value.__str__()
+
+    return value
+
+
+def serialize(record: dict[str, Any]) -> str:
+    subset = {
+        "timestamp": record["time"].isoformat(),
+        "level": record["level"].name,
+        "message": record["message"],
+        "source": f"{record['file'].name}:{record['function']}:{record['line']}",
+    }
+
+    subset.update(record["extra"])
+
+    return orjson.dumps(subset, option=orjson_options, default=json_default).decode()
 
 
 class InterceptHandler(logging.Handler):
@@ -51,7 +77,6 @@ class InterceptHandler(logging.Handler):
             record.getMessage(),
         )
 
-{%- if cookiecutter.otlp_enabled == "True" %}
 
 def record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
     """
@@ -73,6 +98,7 @@ def record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
     )
 
     span = get_current_span()
+
     record["extra"]["span_id"] = 0
     record["extra"]["trace_id"] = 0
     if span != INVALID_SPAN:
@@ -82,11 +108,19 @@ def record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
             record["extra"]["trace_id"] = format(span_context.trace_id, "032x")
 
     if record["exception"]:
-        log_format = f"{log_format}{{'{{'}}exception{{'}}'}}"
+        log_format = f"{log_format}{{exception}}"
+
+    if record["extra"].get("payload") is not None:
+        record["extra"]["payload"] = pformat(record["extra"]["payload"], indent=2, compact=True, width=180)
+        log_format += "    <red>payload={extra[payload]}</red>\n"
 
     return log_format
 
-{%- endif %}
+
+def file_record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
+    record["serialized"] = serialize(record)
+    return "{serialized}\n"
+
 
 def configure_logging() -> None:  # pragma: no cover
     """Configures logging."""
@@ -108,10 +142,37 @@ def configure_logging() -> None:  # pragma: no cover
 
     # set logs output, level and format
     logger.remove()
+
     logger.add(
         sys.stdout,
         level=settings.log_level.value,
-        {%- if cookiecutter.otlp_enabled == "True" %}
         format=record_formatter,  # type: ignore
-        {%- endif %}
     )
+
+    logger.add(
+        "logs/log_{time:YYYY-MM-DD}.log",
+        rotation="500 MB",
+        retention="10 days",
+        compression="zip",
+        level=settings.log_level.value,
+        format=file_record_formatter,  # type: ignore
+    )
+
+
+def logger_wraps(*, entry=True, exit=True, level="DEBUG"):  # type: ignore
+    def wrapper(func) -> Any:  # type: ignore
+        name = func.__name__
+
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):  # type: ignore
+            logger_ = logger.opt(depth=1)
+            if entry:
+                logger_.log(level, "Entering '{}' (args={}, kwargs={})", name, args, kwargs)
+            result = func(*args, **kwargs)
+            if exit:
+                logger_.log(level, "Exiting '{}' (result={})", name, result)
+            return result
+
+        return wrapped
+
+    return wrapper

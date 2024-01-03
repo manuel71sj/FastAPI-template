@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
+from loguru import logger
 from {{cookiecutter.project_name}}.db.dao.dummy_dao import DummyDAO
 from {{cookiecutter.project_name}}.db.models.dummy_model import DummyModel
 from {{cookiecutter.project_name}}.web.api.dummy.schema import (DummyModelDTO,
@@ -10,6 +11,7 @@ from {{cookiecutter.project_name}}.web.api.dummy.schema import (DummyModelDTO,
 router = APIRouter()
 
 
+@logger.catch
 @router.get("/", response_model=List[DummyModelDTO])
 async def get_dummy_models(
     limit: int = 10,
@@ -24,6 +26,14 @@ async def get_dummy_models(
     :param dummy_dao: DAO for dummy models.
     :return: list of dummy objects from database.
     """
+    logger.info("hello")
+    logger.bind(
+        payload={
+            "limit": limit,
+            "offset": offset,
+        },
+    ).info("get_dummy_models 天")
+
     return await dummy_dao.get_all_dummies(limit=limit, offset=offset)
 
 
