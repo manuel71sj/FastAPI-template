@@ -1,13 +1,12 @@
+# ruff: noqa
 from fastapi import APIRouter
 
-from {{cookiecutter.project_name}}.db.models.users import (
-    UserCreate,  # type: ignore
-    UserRead,  # type: ignore
-    UserUpdate,  # type: ignore
-    api_users,  # type: ignore
-    auth_jwt,  # type: ignore
-    auth_cookie,  # type: ignore
-)
+from {{cookiecutter.project_name}}.db.models.users import UserCreate  # type: ignore
+from {{cookiecutter.project_name}}.db.models.users import UserRead  # type: ignore
+from {{cookiecutter.project_name}}.db.models.users import UserUpdate  # type: ignore
+from {{cookiecutter.project_name}}.db.models.users import api_users  # type: ignore
+from {{cookiecutter.project_name}}.db.models.users import auth_cookie  # type: ignore
+from {{cookiecutter.project_name}}.db.models.users import auth_jwt  # type: ignore
 
 
 router = APIRouter()
