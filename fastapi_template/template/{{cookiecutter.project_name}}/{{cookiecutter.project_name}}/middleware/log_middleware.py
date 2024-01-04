@@ -2,6 +2,7 @@ from secrets import token_urlsafe
 from time import time
 
 from loguru import logger
+from starlette import status
 from starlette.middleware.base import RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse, Response
@@ -16,6 +17,10 @@ async def log_request_middleware(
 ) -> Response:
     """
     각 요청을 고유하게 식별하고 처리 시간을 기록합니다.
+
+    :param request: request.
+    :param call_next: RequestResponseEndpoint.
+    :return: Response.
     """
     start_time = time()
     request_id: str = token_urlsafe(settings.request_id_length)
@@ -27,7 +32,10 @@ async def log_request_middleware(
             response = await call_next(request)
         except Exception as exc:
             exception = exc
-            response = PlainTextResponse("Internal Server Error", status_code=500)
+            response = PlainTextResponse(
+                "Internal Server Error",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
         final_time = time()
         elapsed = final_time - start_time
@@ -39,23 +47,23 @@ async def log_request_middleware(
 
         atoms = AccessLogAtoms(request, response_dict, final_time)  # type: ignore
 
-        data = dict(
-            client=atoms["h"],
-            schema=atoms["S"],
-            protocol=atoms["H"],
-            method=atoms["m"],
-            path_with_query=atoms["Uq"],
-            status_code=response.status_code,
-            response_length=atoms["b"],
-            elapsed=elapsed,
-            referer=atoms["f"],
-            user_agent=atoms["a"],
-        )
+        data = {
+            "client": atoms["h"],
+            "schema": atoms["S"],
+            "protocol": atoms["H"],
+            "method": atoms["m"],
+            "path_with_query": atoms["Uq"],
+            "status_code": response.status_code,
+            "response_length": atoms["b"],
+            "elapsed": elapsed,
+            "referer": atoms["f"],
+            "user_agent": atoms["a"],
+        }
 
-        if not exception:
-            logger.info("log request", **data)
-        else:
+        if exception:
             logger.opt(exception=exception).error("unhandled exception", **data)
+        else:
+            logger.info("log request", **data)
 
     response.headers["X-Request-ID"] = request_id
     response.headers["X-Processed-Time"] = str(elapsed)
