@@ -128,7 +128,7 @@ def record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
             compact=True,
             width=WIDTH,
         )
-        log_format = f"{log_format}>>    <red>payload={{extra[payload]}}</red>\n"
+        log_format = f"{log_format}>>    <red>payload={{'{{'}}extra[payload]{{'}}'}}</red>\n"
 
     return log_format
 

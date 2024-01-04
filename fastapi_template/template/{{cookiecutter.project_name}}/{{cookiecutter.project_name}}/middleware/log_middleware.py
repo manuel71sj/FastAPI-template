@@ -8,7 +8,7 @@ from starlette.requests import Request
 from starlette.responses import PlainTextResponse, Response
 
 from {{cookiecutter.project_name}}.settings import settings
-from {{cookiecutter.project_name}.utils.access_log_atoms import AccessLogAtoms
+from {{cookiecutter.project_name}}.utils.access_log_atoms import AccessLogAtoms
 
 
 async def log_request_middleware(
