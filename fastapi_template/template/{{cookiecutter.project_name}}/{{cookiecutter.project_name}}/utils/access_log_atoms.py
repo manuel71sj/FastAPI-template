@@ -13,9 +13,9 @@ class AccessLogAtoms(dict):  # type: ignore
         request_time: float,
     ) -> None:
         for name, value in request["headers"]:
-            self[f"{{{name.decode('latin1').lower()}}}i"] = value.decode("latin1")
+            self[f"{{'{{'}}{name.decode('latin1').lower()}]{{'}}'}}i"] = value.decode("latin1")
         for name, value in os.environ.items():
-            self[f"{{{name.lower()}}}e"] = value
+            self[f"{{'{{'}}{name.lower()}]{{'}}'}}e"] = value
         protocol = request.get("http_version", "ws")
         client = request.get("client")
         if client is None:
@@ -37,7 +37,7 @@ class AccessLogAtoms(dict):  # type: ignore
         status_phrase = "-"
         if response is not None:
             for name, value in response.get("headers", []):  # type: ignore
-                self[f"{{{name.decode('latin1').lower()}}}o"] = value.decode("latin1")  # type: ignore # noqa: E501
+                self[f"{{'{{'}}{name.decode('latin1').lower()}]{{'}}'}}o"] = value.decode("latin1")  # type: ignore # noqa: E501
             status_code = str(response["status"])
             try:
                 status_phrase = HTTPStatus(response["status"]).phrase  # type: ignore
