@@ -13,7 +13,7 @@ from taskiq_aio_pika import AioPikaBroker
 {%- endif %}
 
 {%- if cookiecutter.enable_redis == "True" %}
-result_backend = RedisAsyncResultBackend(
+result_backend = RedisAsyncResultBackend(    # type: ignore
     redis_url=str(settings.redis_url.with_path("/1")),
 )
 {%- endif %}

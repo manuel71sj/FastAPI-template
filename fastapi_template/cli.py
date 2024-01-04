@@ -556,6 +556,7 @@ features_menu = MultiselectMenuModel(
             code="enable_kafka",
             cli_name="kafka",
             user_view="Add Kafka support",
+            is_hidden=always_hidden(),
             description=(
                 "{what} is a message broker.\n"
                 "Kafka doesn't have a fancy routing as RabbitMQ, but it's {why}.".format(
@@ -570,6 +571,7 @@ features_menu = MultiselectMenuModel(
         MenuEntry(
             code="gunicorn",
             cli_name="gunicorn",
+            is_hidden=always_hidden(),
             user_view="Add gunicorn server",
             description=(
                 "This option adds {what} server for running application.\n"

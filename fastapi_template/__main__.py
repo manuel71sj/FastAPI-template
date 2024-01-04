@@ -19,16 +19,11 @@ def generate_project(context: BuilderContext) -> None:
     :param context: builder_context
     """
     try:
-        aa = context.dict()
-        bb = BuilderContext().dict()
-        pprint(aa)
-        pprint(bb)
         cookiecutter(
             template=f"{script_dir}/template",
-            extra_context=aa,
-            # default_config=bb,
+            extra_context=context.dict(),
+            default_config=BuilderContext().dict(),
             no_input=True,
-            overwrite_if_exists=context.force,
         )
     except (FailedHookException, OutputDirExistsException) as exc:
         if isinstance(exc, OutputDirExistsException):

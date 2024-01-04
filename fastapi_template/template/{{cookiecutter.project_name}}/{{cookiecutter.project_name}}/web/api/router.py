@@ -2,7 +2,6 @@ from fastapi.routing import APIRouter
 
 {%- if cookiecutter.add_users == 'True' %}
 from {{cookiecutter.project_name}}.web.api import users
-from {{cookiecutter.project_name}}.db.models.users import api_users
 {%- endif %}
 {%- if cookiecutter.enable_routers == "True" %}
 {%- if cookiecutter.api_type == 'rest' %}
