@@ -73,7 +73,6 @@ class AccessLogAtoms(dict):  # type: ignore
         try:
             if key.startswith("{"):
                 return super().__getitem__(key.lower())
-            else:
-                return super().__getitem__(key)
+            return super().__getitem__(key)
         except KeyError:
             return "-"
