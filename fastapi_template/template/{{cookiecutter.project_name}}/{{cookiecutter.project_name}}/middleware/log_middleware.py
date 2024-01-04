@@ -1,48 +1,13 @@
 from secrets import token_urlsafe
 from time import time
 
-from fastapi.responses import UJSONResponse
-
 from loguru import logger
-from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.middleware.base import RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse, Response
 
 from {{cookiecutter.project_name}}.settings import settings
 from {{cookiecutter.project_name}.utils.access_log_atoms import AccessLogAtoms
-
-class LogMiddleware(BaseHTTPMiddleware):
-    @logger.catch
-    async def dispatch(
-        self,
-        request: Request,
-        call_next: RequestResponseEndpoint,
-    ) -> Response:
-        try:
-            response = await call_next(request)
-
-            logger.bind(
-                req={
-                    "method": request.method,
-                    "url": request.url,
-                    "user_agent": request.headers.get("user-agent"),
-                    "cookie": request.headers.get("cookie"),
-                },
-                res={"status_code": response.status_code},
-            ).info("Incoming request")
-            return response
-        except Exception as e:
-            logger.bind(
-                req={
-                    "method": request.method,
-                    "url": request.url,
-                    "user_agent": request.headers.get("user-agent"),
-                    "cookie": request.headers.get("cookie"),
-                },
-                res={"status_code": 500},
-                error=e,
-            ).error("Incoming request")
-            return UJSONResponse(status_code=500, content=str(e))
 
 
 async def log_request_middleware(
