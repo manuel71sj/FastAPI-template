@@ -31,9 +31,11 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 {%- endif %}
 {%- endif %}
 
+from starlette.middleware.base import BaseHTTPMiddleware
+
 {%- if cookiecutter.enable_loguru == "True" %}
 from {{cookiecutter.project_name}}.logging import configure_logging
-from {{cookiecutter.project_name}}.middleware.log_middleware import LogMiddleware
+from {{cookiecutter.project_name}}.middleware.log_middleware import log_request_middleware
 
 {%- endif %}
 
@@ -92,7 +94,7 @@ def get_app() -> FastAPI:
         default_response_class=UJSONResponse,
     )
 
-    app.add_middleware(LogMiddleware)
+    app.add_middleware(BaseHTTPMiddleware, dispatch=log_request_middleware)
 
     # Adds startup and shutdown events.
     register_startup_event(app)

@@ -42,9 +42,15 @@ class Settings(BaseSettings):
     # Enable uvicorn reloading
     reload: bool = False
 
+    debug: bool = False
+    pigments_style: str = "material"
+    request_id_length: int = 32
+
+
+
     # Current environment
     environment: str = "dev"
-    
+
     log_level: LogLevel = LogLevel.INFO
 
     {%- if cookiecutter.add_users == "True" %}

@@ -6,7 +6,12 @@ from pprint import pformat
 from typing import Any, Union
 
 import orjson
+import stackprinter
 from loguru import logger
+from pygments import highlight
+from pygments.formatters.terminal256 import Terminal256Formatter
+from pygments.lexers.data import JsonLexer
+
 from {{cookiecutter.project_name}}.settings import settings
 
 {%- if cookiecutter.otlp_enabled == "True" %}
@@ -15,8 +20,13 @@ from opentelemetry.trace import INVALID_SPAN, INVALID_SPAN_CONTEXT, get_current_
 {%- endif %}
 from starlette.datastructures import URL
 
-orjson_options = orjson.OPT_NAIVE_UTC
+
 WIDTH = 180
+lexer = JsonLexer()
+formatter = Terminal256Formatter(style=settings.pigments_style)
+orjson_options = orjson.OPT_NAIVE_UTC
+if settings.debug:
+    orjson_options |= orjson.OPT_INDENT_2
 
 
 def json_default(value: Any) -> str:
@@ -39,7 +49,14 @@ def serialize(record: dict[str, Any]) -> str:
     subset = format_record(record)
     subset.update(record["extra"])
 
-    return orjson.dumps(subset, option=orjson_options, default=json_default).decode()
+    formatted_json = orjson.dumps(subset, default=str, option=orjson_options).decode()
+
+    if record["exception"]:
+        subset["exception"] = stackprinter.format(record["exception"])
+    if settings.debug:
+        formatted_json = highlight(formatted_json, lexer, formatter)
+
+    return formatted_json
 
 
 class InterceptHandler(logging.Handler):
@@ -95,21 +112,11 @@ def record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
     log_format = (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> "
         "| <level>{level: <8}</level> "
-        "| <magenta>trace_id={extra[trace_id]}</magenta> "
-        "| <blue>span_id={extra[span_id]}</blue> "
+        "| <magenta>process_id={process.id}</magenta> "
+        "| <blue>thread_id={thread.id}</blue> "
         "| <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> "
         "- <level>{message}</level>\n"
     )
-
-    span = get_current_span()
-
-    record["extra"]["span_id"] = 0
-    record["extra"]["trace_id"] = 0
-    if span != INVALID_SPAN:
-        span_context = span.get_span_context()
-        if span_context != INVALID_SPAN_CONTEXT:
-            record["extra"]["span_id"] = format(span_context.span_id, "016x")
-            record["extra"]["trace_id"] = format(span_context.trace_id, "032x")
 
     if record["exception"]:
         log_format = f"{log_format}{{exception}}\n"
@@ -156,6 +163,8 @@ def configure_logging() -> None:  # pragma: no cover
         sys.stdout,
         level=settings.log_level.value,
         format=record_formatter,  # type: ignore
+        backtrace=False,
+        diagnose=False,
     )
 
     logger.add(
