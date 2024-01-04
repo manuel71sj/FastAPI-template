@@ -23,35 +23,46 @@ repos:
               - --autofix
               - --preserve-quotes
               - --indent=2
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      # Ruff version.
+      rev: v0.1.11
+      hooks:
+          # Run the linter.
+          - id: ruff
+            types_or: [ python, pyi, jupyter ]
+            args: [ --select I --fix ]
+          # Run the formatter.
+          - id: ruff-format
+            types_or: [ python, pyi, jupyter ]
 
     - repo: local
       hooks:
-          - id: autoflake
-            name: autoflake
-            entry: poetry run autoflake
-            language: system
-            types: [python]
-            args: [--in-place, --remove-all-unused-imports, --remove-duplicate-keys]
-
-          - id: black
-            name: Format with Black
-            entry: poetry run black
-            language: system
-            types: [python]
-
-          - id: isort
-            name: isort
-            entry: poetry run isort
-            language: system
-            types: [python]
-
-          - id: flake8
-            name: Check with Flake8
-            entry: poetry run flake8
-            language: system
-            pass_filenames: false
-            types: [python]
-            args: [--count, .]
+#          - id: autoflake
+#            name: autoflake
+#            entry: poetry run autoflake
+#            language: system
+#            types: [python]
+#            args: [--in-place, --remove-all-unused-imports, --remove-duplicate-keys]
+#
+#          - id: black
+#            name: Format with Black
+#            entry: poetry run black
+#            language: system
+#            types: [python]
+#
+#          - id: isort
+#            name: isort
+#            entry: poetry run isort
+#            language: system
+#            types: [python]
+#
+#          - id: flake8
+#            name: Check with Flake8
+#            entry: poetry run flake8
+#            language: system
+#            pass_filenames: false
+#            types: [python]
+#            args: [--count, .]
 
           - id: mypy
             name: Validate types with MyPy

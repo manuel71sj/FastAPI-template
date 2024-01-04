@@ -179,6 +179,7 @@ httpx = "^0.25.2"
 {%- if cookiecutter.enable_taskiq == "True" %}
 taskiq = { version = "^0", extras = ["reload"] }
 {%- endif %}
+ruff = "^0.1.11"
 
 [tool.isort]
 profile = "black"
@@ -272,13 +273,27 @@ select = [
     "W",
 ]
 target-version = "py311"
+exclude = ['.cache',
+    '.git',
+    '.idea',
+    '.mypy_cache',
+    '.pytest_cache',
+    '.venv',
+    'venv',
+    'env',
+    'cached_venv',
+    'docs',
+    'deploy',
+    'var',
+    '.vscode',
+    '*migrations*', ]
 
 [tool.ruff.format]
 quote-style = "single"
 
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401"]
-"tests/**" = ["ARG", "PLR2004", "S"]
+"*/tests/**" = ["ARG", "PLR2004", "S"]
 
 {%- if cookiecutter.orm == "tortoise" %}
 {%- if cookiecutter.enable_migrations == "True" %}
