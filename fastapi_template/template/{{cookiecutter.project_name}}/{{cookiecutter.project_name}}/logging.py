@@ -119,7 +119,7 @@ def record_formatter(record: dict[str, Any]) -> str:  # pragma: no cover
     )
 
     if record["exception"]:
-        log_format = f"{log_format}{{exception}}\n"
+        log_format = f"{log_format}{{'{{'}}exception{{'}}'}}\n"
 
     if record["extra"].get("payload") is not None:
         record["extra"]["payload"] = pformat(
