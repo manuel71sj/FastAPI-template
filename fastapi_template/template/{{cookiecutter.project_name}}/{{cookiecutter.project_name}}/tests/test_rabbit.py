@@ -58,14 +58,14 @@ async def test_message_publishing(
 
 
 @pytest.mark.anyio
-async def test_message_wrong_exchange(
+async def test_message_wrong_exchange(   # noqa: PLR0913
     fastapi_app: FastAPI,
     client: AsyncClient,
     test_queue: AbstractQueue,
     test_exchange_name: str,
     test_routing_key: str,
     test_rmq_pool: Pool[Channel],
-) -> None:
+) -> None: # noqa: PLR0913
     """
     Tests that message can be published in undeclared exchange.
 

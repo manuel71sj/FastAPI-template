@@ -7,7 +7,7 @@ from taskiq import TaskiqDepends
 {%- endif %}
 
 
-def get_kafka_producer(request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %}) -> AIOKafkaProducer:  # pragma: no cover
+def get_kafka_producer(request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %}) -> AIOKafkaProducer:  # pragma: no cover  # noqa : B008
     """
     Returns kafka producer.
 

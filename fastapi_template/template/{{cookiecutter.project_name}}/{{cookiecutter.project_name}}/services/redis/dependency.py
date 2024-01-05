@@ -9,7 +9,9 @@ from taskiq import TaskiqDepends
 {%- endif %}
 
 
-async def get_redis_pool(request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %}) -> AsyncGenerator[Redis, None]:  # pragma: no cover
+async def get_redis_pool(
+    request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %},  # noqa: B008
+) -> AsyncGenerator[Redis, None]:  # pragma: no cover # noqa : B008
     """
     Returns connection pool.
 

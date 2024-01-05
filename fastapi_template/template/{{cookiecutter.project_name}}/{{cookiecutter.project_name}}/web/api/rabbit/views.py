@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post("/")
 async def send_rabbit_message(
     message: RMQMessageDTO,
-    pool: Pool[Channel] = Depends(get_rmq_channel_pool),
+    pool: Pool[Channel] = Depends(get_rmq_channel_pool),    # noqa : B008
 ) -> None:
     """
     Posts a message in a rabbitMQ's exchange.

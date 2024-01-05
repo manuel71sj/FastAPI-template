@@ -9,7 +9,7 @@ from taskiq import TaskiqDepends
 {%- endif %}
 
 
-async def get_db_session(request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %}) -> AsyncGenerator[AsyncSession, None]:
+async def get_db_session(request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %}) -> AsyncGenerator[AsyncSession, None]:  # noqa : B008
     """
     Create and get database session.
 

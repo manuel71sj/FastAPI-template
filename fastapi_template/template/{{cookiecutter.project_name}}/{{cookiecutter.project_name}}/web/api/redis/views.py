@@ -10,7 +10,7 @@ router = APIRouter()
 @router.get("/", response_model=RedisValueDTO)
 async def get_redis_value(
     key: str,
-    redis_pool: ConnectionPool = Depends(get_redis_pool),
+    redis_pool: ConnectionPool = Depends(get_redis_pool),   # noqa : B008
 ) -> RedisValueDTO:
     """
     Get value from redis.
@@ -30,7 +30,7 @@ async def get_redis_value(
 @router.put("/")
 async def set_redis_value(
     redis_value: RedisValueDTO,
-    redis_pool: ConnectionPool = Depends(get_redis_pool),
+    redis_pool: ConnectionPool = Depends(get_redis_pool),   # noqa : B008
 ) -> None:
     """
     Set value in redis.

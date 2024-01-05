@@ -6,7 +6,7 @@ from taskiq import TaskiqDepends
 
 {%- endif %}
 
-async def get_db_pool(request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %}) -> AsyncConnectionPool:
+async def get_db_pool(request: Request {%- if cookiecutter.enable_taskiq == "True" %} = TaskiqDepends(){%- endif %}) -> AsyncConnectionPool:    # noqa : B008
     """
     Return database connections pool.
 
