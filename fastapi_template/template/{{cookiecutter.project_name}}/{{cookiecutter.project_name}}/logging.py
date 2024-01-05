@@ -37,7 +37,7 @@ def json_default(value: Any) -> str:
 
 
 def format_record(record: dict[str, Any]) -> dict[str, Any]:
-    return {
+    json_log = {
         'timestamp': record['time'].isoformat(),
         'level': record['level'].name,
         'msg': record['message'],
@@ -45,8 +45,12 @@ def format_record(record: dict[str, Any]) -> dict[str, Any]:
         'process_id': record['process'].id,
         'thread_id': record['thread'].id,
         'exception': record.get('exception', None),
-        'extra': record.get('extra', {}),
     }
+
+    if record['extra'].get('payload') is not None:
+        json_log.update({'payload': record['extra']['payload']})
+
+    return json_log
 
 
 def serialize(record: dict[str, Any]) -> str:
