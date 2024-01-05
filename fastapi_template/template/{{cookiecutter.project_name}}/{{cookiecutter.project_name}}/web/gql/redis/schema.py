@@ -8,7 +8,7 @@ class RedisDTO:
     """Output type for redis queries."""
 
     key: str
-    value: Optional[str]
+    value: str | None
 
 
 @strawberry.input

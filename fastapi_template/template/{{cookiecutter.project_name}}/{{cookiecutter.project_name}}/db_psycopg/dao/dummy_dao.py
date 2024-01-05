@@ -57,7 +57,7 @@ class DummyDAO:
 
     async def filter(
         self,
-        name: Optional[str] = None,
+        name: str | None = None,
     ) -> List[DummyModel]:
         """
         Get specific dummy model.

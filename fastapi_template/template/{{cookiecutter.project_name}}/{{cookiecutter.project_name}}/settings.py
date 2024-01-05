@@ -80,9 +80,9 @@ class Settings(BaseSettings):
     # Variables for Redis
     redis_host: str = "{{cookiecutter.project_name}}-redis"
     redis_port: int = 6379
-    redis_user: Optional[str] = None
-    redis_pass: Optional[str] = None
-    redis_base: Optional[int] = None
+    redis_user: str | None = None
+    redis_pass: str | None = None
+    redis_base: int | None = None
 
     {%- endif %}
 
@@ -114,7 +114,7 @@ class Settings(BaseSettings):
     {%- if cookiecutter.sentry_enabled == "True" %}
 
     # Sentry's configuration.
-    sentry_dsn: Optional[str] = None
+    sentry_dsn: str | None = None
     sentry_sample_rate: float = 1.0
 
     {%- endif %}
@@ -124,7 +124,7 @@ class Settings(BaseSettings):
 
     # Grpc endpoint for opentelemetry.
     # E.G. http://localhost:4317
-    opentelemetry_endpoint: Optional[str] = None
+    opentelemetry_endpoint: str | None = None
 
     {%- endif %}
 

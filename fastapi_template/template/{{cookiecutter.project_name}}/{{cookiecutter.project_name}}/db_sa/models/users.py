@@ -40,7 +40,9 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     verification_token_secret = settings.users_secret
 
 
-async def get_user_db(session: AsyncSession = Depends(get_db_session)) -> SQLAlchemyUserDatabase:
+async def get_user_db(
+    session: AsyncSession = Depends(get_db_session),  # noqa: B008
+) -> SQLAlchemyUserDatabase:
     """
     Yield a SQLAlchemyUserDatabase instance.
 
@@ -50,7 +52,9 @@ async def get_user_db(session: AsyncSession = Depends(get_db_session)) -> SQLAlc
     yield SQLAlchemyUserDatabase(session, User)
 
 
-async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)) -> UserManager:
+async def get_user_manager(
+    user_db: SQLAlchemyUserDatabase = Depends(get_user_db), # noqa: B008
+) -> UserManager:
     """
     Yield a UserManager instance.
 

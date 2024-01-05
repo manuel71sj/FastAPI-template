@@ -26,7 +26,7 @@ class DummyDAO:
             await DummyModel.all().offset(offset).limit(limit)
         )
 
-    async def filter(self, name: Optional[str] = None) -> List[DummyModel]:
+    async def filter(self, name: str | None = None) -> List[DummyModel]:
         """
         Get specific dummy model.
 

@@ -16,7 +16,7 @@ router = APIRouter()
 async def get_dummy_models(
     limit: int = 10,
     offset: int = 0,
-    dummy_dao: DummyDAO = Depends(),
+    dummy_dao: DummyDAO = Depends(),    # noqa: B008
 ) -> List[DummyModel]:
     """
     Retrieve all dummy objects from the database.
@@ -40,7 +40,7 @@ async def get_dummy_models(
 @router.put("/")
 async def create_dummy_model(
     new_dummy_object: DummyModelInputDTO,
-    dummy_dao: DummyDAO = Depends(),
+    dummy_dao: DummyDAO = Depends(),    # noqa: B008
 ) -> None:
     """
     Creates dummy model in the database.

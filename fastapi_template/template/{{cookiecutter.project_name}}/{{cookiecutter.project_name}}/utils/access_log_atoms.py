@@ -20,9 +20,9 @@ class AccessLogAtoms(dict):  # type: ignore
         client = request.get("client")
         if client is None:
             remote_addr = None
-        elif len(client) == 2:
-            remote_addr = f"{client[0]}:{client[1]}"
-        elif len(client) == 1:
+        elif len(client) == 2:  # noqa: PLR2004
+            remote_addr = f'{client[0]}:{client[1]}'
+        elif len(client) == 1:  # noqa: PLR2004
             remote_addr = client[0]
         else:  # make sure not to throw UnboundLocalError
             remote_addr = f"<???{client}???>"
