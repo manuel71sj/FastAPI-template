@@ -285,7 +285,9 @@ exclude = ['.cache',
     'deploy',
     'var',
     '.vscode',
-    '*migrations*', ]
+    '*migrations*',
+    'filebeat*'
+]
 
 [tool.ruff.format]
 quote-style = "single"

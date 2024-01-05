@@ -38,10 +38,14 @@ def json_default(value: Any) -> str:
 
 def format_record(record: dict[str, Any]) -> dict[str, Any]:
     return {
-        "timestamp": record["time"].isoformat(),
-        "level": record["level"].name,
-        "message": record["message"],
-        "source": f"{record['file'].name}" f":{record['function']}" f":{record['line']}",  # noqa: WPS221
+        'timestamp': record['time'].isoformat(),
+        'level': record['level'].name,
+        'msg': record['message'],
+        'source': f"{record['file'].name}" f":{record['function']}" f":{record['line']}",  # noqa: WPS221
+        'process_id': record['process'].id,
+        'thread_id': record['thread'].id,
+        'exception': record.get('exception', None),
+        'extra': record.get('extra', {}),
     }
 
 
