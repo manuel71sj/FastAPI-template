@@ -3,12 +3,15 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v2.4.0
+      rev: v4.4.0
       hooks:
-          - id: check-ast
-          - id: trailing-whitespace
-          - id: check-toml
+          - id: check-added-large-files
           - id: end-of-file-fixer
+          - id: requirements-txt-fixer
+          - id: check-yaml
+          - id: check-ast
+          - id: check-toml
+          - id: trailing-whitespace
 
     - repo: https://github.com/asottile/add-trailing-comma
       rev: v2.1.0
@@ -31,8 +34,9 @@ repos:
           - id: ruff
             types_or: [ python, pyi, jupyter ]
             args:
-              - --select=ARG,B,C4,E,F,I,N,PLC,PLE,PLR,PLW,RET,S,T10,T10,UP,W
-              - --fix
+              - '--config'
+              - '.ruff.toml'
+              - '--fix'
           # Run the formatter.
           - id: ruff-format
             types_or: [ python, pyi, jupyter ]

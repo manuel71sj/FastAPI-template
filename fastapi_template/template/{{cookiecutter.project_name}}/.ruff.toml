@@ -1,0 +1,58 @@
+line-length = 120
+target-version = "py311"
+cache-dir = "./.ruff_cache"
+
+select = [
+    "ARG",
+    "B",
+    "C4",
+    "E",
+    "ERA",
+    "F",
+    "I",
+    "N",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+    "RET",
+    "S",
+    "T10",
+    "T10",
+    "UP",
+    "W",
+]
+
+ignore = [
+    "ERA001",
+]
+
+exclude = [
+    '.cache',
+    '.git',
+    '.idea',
+    '.mypy_cache',
+    '.pytest_cache',
+    '.venv',
+    'venv',
+    'env',
+    'cached_venv',
+    'docs',
+    'deploy',
+    'var',
+    '.vscode',
+    '*migrations*',
+    'filebeat*'
+]
+
+[lint.isort]
+lines-between-types = 1
+
+[per-file-ignores]
+"__init__.py" = ["F401"]
+"*/tests/test_*.py" = ["ARG", "PLR2004", "S", "S101"]
+"db/models/*.py" = ["TCH003"]
+#"backend/app/api/v1/*.py" = ["TCH"]
+
+[format]
+quote-style = "single"
