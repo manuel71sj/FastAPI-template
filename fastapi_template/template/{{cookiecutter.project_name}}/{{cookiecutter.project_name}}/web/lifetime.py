@@ -3,17 +3,19 @@ from typing import Awaitable, Callable
 
 from fastapi import FastAPI
 from {{cookiecutter.project_name}}.settings import settings
+from {{cookiecutter.project_name}}.core import path_conf
+{%- if cookiecutter.enable_loguru == "True" %}
+from {{cookiecutter.project_name}}.middleware.log_middleware import log_request_middleware
+{% endif %}
 
 {%- if cookiecutter.enable_redis == "True" %}
 from {{cookiecutter.project_name}}.services.redis.lifetime import (init_redis,
                                                                    shutdown_redis)
-
 {%- endif %}
 
 {%- if cookiecutter.enable_rmq == "True" %}
 from {{cookiecutter.project_name}}.services.rabbit.lifetime import (init_rabbit,
                                                                     shutdown_rabbit)
-
 {%- endif %}
 
 {%- if cookiecutter.enable_kafka == "True" %}
@@ -23,8 +25,14 @@ from {{cookiecutter.project_name}}.services.kafka.lifetime import (init_kafka,
 
 {%- if cookiecutter.enable_taskiq == "True" %}
 from {{cookiecutter.project_name}}.tkq import broker
-
 {%- endif %}
+
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.gzip import GZipMiddleware
+
+from {{cookiecutter.project_name}}.settings import settings
+
 
 {%- if cookiecutter.orm == "sqlalchemy" %}
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
@@ -33,7 +41,6 @@ from sqlalchemy.orm import sessionmaker
     {%- if cookiecutter.enable_migrations != "True" %}
 from {{cookiecutter.project_name}}.db.meta import meta
 from {{cookiecutter.project_name}}.db.models import load_all_models
-
     {%- endif %}
 
 
@@ -52,6 +59,7 @@ def _setup_db(app: FastAPI) -> None:  # pragma: no cover
         engine,
         expire_on_commit=False,
     )
+
     app.state.db_engine = engine
     app.state.db_session_factory = session_factory
 {%- endif %}
@@ -140,3 +148,47 @@ def register_shutdown_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # p
         pass  # noqa: WPS420
 
     return _shutdown
+
+
+def register_static_file(app: FastAPI) -> None:
+    """
+    Register static file.
+
+    :param app: fastAPI application.
+    :return: function that actually performs actions.
+    """
+
+    if settings.static_file:
+        import os
+
+        from fastapi.staticfiles import StaticFiles
+
+        if not os.path.exists(path_conf.StaticPath):
+            os.makedirs(path_conf.StaticPath)
+        app.mount('/static', StaticFiles(directory=path_conf.StaticPath), name='static')
+
+
+def register_middleware(app: FastAPI) -> None:
+    """
+    Register middleware.
+
+    :param app: fastAPI application.
+    :return: function that actually performs actions.
+    """
+    # gzip
+    if settings.middleware_gzip:
+        app.add_middleware(GZipMiddleware)
+{%- if cookiecutter.enable_loguru == "True" %}
+    # 인터페이스 액세스 로그
+    if settings.middleware_access:
+        app.add_middleware(BaseHTTPMiddleware, dispatch=log_request_middleware)
+{% endif %}
+    # CORS
+    if settings.middleware_cors:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=['*'],
+            allow_credentials=True,
+            allow_methods=['*'],
+            allow_headers=['*'],
+        )

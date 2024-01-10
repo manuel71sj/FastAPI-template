@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from httpx import AsyncClient
 
 {%- if cookiecutter.orm == 'sqlalchemy' %}
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel.ext.asyncio.session import AsyncSession
 {%- endif %}
 
 from starlette import status

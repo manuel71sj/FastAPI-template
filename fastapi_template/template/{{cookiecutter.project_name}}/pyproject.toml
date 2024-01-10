@@ -30,11 +30,12 @@ yarl = "^1.9.2"
 ujson = "^5.8.0"
 {%- if cookiecutter.orm == "sqlalchemy" %}
 SQLAlchemy = {version = "^2.0.18", extras = ["asyncio"]}
+sqlmodel = "^0.0.14"
     {%- if cookiecutter.enable_migrations == "True" %}
 alembic = "^1.11.1"
     {%- endif %}
     {%- if cookiecutter.db_info.name == "postgresql" %}
-asyncpg = {version = "^0.29.0", extras = ["sa"]}
+asyncpg = "^0.29.0"
     {%- elif cookiecutter.db_info.name == "mysql" %}
 aiomysql = "^0.2.0"
 mysqlclient = "^2.2.1"

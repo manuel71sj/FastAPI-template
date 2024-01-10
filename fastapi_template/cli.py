@@ -212,12 +212,14 @@ orm_menu = SingularMenuModel(
         ),
         MenuEntry(
             code="sqlalchemy",
-            user_view="SQLAlchemy",
+            user_view="SQLAlchemy with SQLModel",
             description=(
                 "{what} is the most popular python ORM.\n"
-                "It has a {feature} and a big community around it.".format(
+                "It has a {feature} and a big community around it.\n"
+                "{sqlmodel}은 {what}의 wrapper ORM입니다.".format(
                     what=colored("SQLAlchemy", color="green"),
                     feature=colored("great documentation", color="cyan"),
+                    sqlmodel=colored("SQLModel", color="yellow"),
                 )
             ),
         ),

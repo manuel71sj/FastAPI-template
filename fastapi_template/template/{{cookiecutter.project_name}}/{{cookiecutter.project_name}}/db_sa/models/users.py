@@ -6,19 +6,20 @@ from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin, schemas
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
-
     CookieTransport,
     JWTStrategy,
 )
-from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi_users_db_sqlmodel import SQLModelBaseUserDB, SQLModelUserDatabaseAsync
 
-from {{cookiecutter.project_name}}.db.base import Base
+from {{cookiecutter.project_name}}.db.base import BaseUUIDModel
 from {{cookiecutter.project_name}}.db.dependencies import get_db_session
 from {{cookiecutter.project_name}}.settings import settings
+from sqlmodel import Field
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 
-class User(SQLAlchemyBaseUserTableUUID, Base):
+class User(SQLModelBaseUserDB, BaseUUIDModel, table=True):
+    email: str = Field(max_length=50, unique=True, index=True, description='E-mail')
     """Represents a user entity."""
 
 
@@ -42,18 +43,18 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
 async def get_user_db(
     session: AsyncSession = Depends(get_db_session),  # noqa: B008
-) -> SQLAlchemyUserDatabase:
+) -> SQLModelUserDatabaseAsync:
     """
-    Yield a SQLAlchemyUserDatabase instance.
+    Yield a SQLModelUserDatabaseAsync instance.
 
     :param session: asynchronous SQLAlchemy session.
-    :yields: instance of SQLAlchemyUserDatabase.
+    :yields: instance of SQLModelUserDatabaseAsync.
     """
-    yield SQLAlchemyUserDatabase(session, User)
+    yield SQLModelUserDatabaseAsync(session, User)
 
 
 async def get_user_manager(
-    user_db: SQLAlchemyUserDatabase = Depends(get_user_db), # noqa: B008
+    user_db: SQLModelUserDatabaseAsync = Depends(get_user_db), # noqa: B008
 ) -> UserManager:
     """
     Yield a UserManager instance.

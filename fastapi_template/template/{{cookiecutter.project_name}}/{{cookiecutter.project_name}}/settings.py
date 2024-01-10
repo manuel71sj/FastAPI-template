@@ -99,6 +99,12 @@ class Settings(BaseSettings):
 
     {%- if cookiecutter.db_info.name != "none" %}
 
+    # Static Server
+    static_file: bool = True
+
+    middleware_cors: bool = True
+    middleware_gzip: bool = True
+    middleware_access: bool = False
 
     @property
     def db_url(self) -> URL:

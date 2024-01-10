@@ -38,7 +38,8 @@ from {{cookiecutter.project_name}}.settings import settings
 from {{cookiecutter.project_name}}.web.application import get_app
 
 {%- if cookiecutter.orm == "sqlalchemy" %}
-from sqlalchemy.ext.asyncio import (AsyncConnection, AsyncEngine, AsyncSession,
+from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     async_sessionmaker, create_async_engine)
 from {{cookiecutter.project_name}}.db.dependencies import get_db_session
 from {{cookiecutter.project_name}}.db.utils import create_database, drop_database
@@ -102,7 +103,7 @@ async def dbsession(
     session = session_maker()
 
     try:
-        yield session
+        yield session    # type: ignore
     finally:
         await session.close()
         await trans.rollback()
