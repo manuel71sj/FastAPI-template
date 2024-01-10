@@ -222,19 +222,6 @@ orm_menu = SingularMenuModel(
             ),
         ),
         MenuEntry(
-            code="psycopg",
-            user_view="PsycoPG",
-            # is_hidden=check_db(["postgresql"]),
-            is_hidden=always_hidden(),
-            description=(
-                "{what} is a {feature} for Postgresql.\n"
-                "It's async and can work with pydantic types.".format(
-                    what=colored("PsycoPG", color="green"),
-                    feature=colored("raw driver", color="cyan"),
-                )
-            ),
-        ),
-        MenuEntry(
             code="piccolo",
             user_view="Piccolo",
             pydantic_v1=True,

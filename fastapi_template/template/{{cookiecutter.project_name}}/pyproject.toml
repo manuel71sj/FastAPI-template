@@ -55,9 +55,6 @@ redis = {version = "^5.0.1", extras = ["hiredis"]}
 {%- if cookiecutter.self_hosted_swagger == 'True' %}
 aiofiles = "^23.1.0"
 {%- endif %}
-{%- if cookiecutter.orm == "psycopg" %}
-psycopg = { version = "^3.1.9", extras = ["binary", "pool"] }
-{%- endif %}
 httptools = "^0.6.0"
 {%- if cookiecutter.enable_rmq == "True" %}
 aio-pika = "^9.1.4"

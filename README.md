@@ -85,7 +85,7 @@ Options:
   --quite                         Do not ask for features during generation
   --api-type [rest]               Select API type for your application
   --db [none|mysql|postgresql]    Select a database for your app
-  --orm [none|sqlalchemy|psycopg|piccolo]
+  --orm [none|sqlalchemy|piccolo]
                                   Choose Object–Relational Mapper lib
   --ci [none|gitlab_ci]    Select a CI for your app
   --redis                         Add redis support

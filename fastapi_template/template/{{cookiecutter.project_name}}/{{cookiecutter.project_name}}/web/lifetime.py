@@ -61,20 +61,6 @@ from opentelemetry.instrumentation.logging import LoggingInstrumentor
     {%- endif %}
 {%- endif %}
 
-{%- if cookiecutter.orm == "psycopg" %}
-import psycopg_pool
-
-
-async def _setup_db(app: FastAPI) -> None:
-    """
-    Creates connection pool for timescaledb.
-
-    :param app: current FastAPI app.
-    """
-    app.state.db_pool = psycopg_pool.AsyncConnectionPool(conninfo=str(settings.db_url))
-    await app.state.db_pool.wait()
-{%- endif %}
-
 {%- if cookiecutter.orm == "sqlalchemy" %}
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import sessionmaker
@@ -246,8 +232,6 @@ def register_startup_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # pr
         {%- endif %}
         {%- if cookiecutter.orm == "sqlalchemy" %}
         _setup_db(app)
-        {%- elif cookiecutter.orm == "psycopg" %}
-        await _setup_db(app)
         {%- endif %}
         {%- if cookiecutter.db_info.name != "none" and cookiecutter.enable_migrations != "True" %}
         {%- if cookiecutter.orm in ["sqlalchemy"] %}
@@ -291,8 +275,6 @@ def register_shutdown_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # p
         {%- endif %}
         {%- if cookiecutter.orm == "sqlalchemy" %}
         await app.state.db_engine.dispose()
-        {%- elif cookiecutter.orm == "psycopg" %}
-        await app.state.db_pool.close()
         {%- endif %}
         {%- if cookiecutter.enable_redis == "True" %}
         await shutdown_redis(app)

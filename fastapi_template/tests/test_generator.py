@@ -78,18 +78,7 @@ def test_default_for_apis(default_context: BuilderContext, orm: str, api: str):
 @pytest.mark.parametrize(
     "orm",
     [
-        "psycopg",
-    ],
-)
-def test_pg_drivers(default_context: BuilderContext, orm: str):
-    run_default_check(init_context(default_context, "postgresql", orm))
-
-
-@pytest.mark.parametrize(
-    "orm",
-    [
         "sqlalchemy",
-        "psycopg",
         "piccolo",
     ],
 )
@@ -121,7 +110,6 @@ def test_with_selfhosted_swagger(default_context: BuilderContext):
     "orm",
     [
         "sqlalchemy",
-        "psycopg",
         "piccolo",
     ],
 )

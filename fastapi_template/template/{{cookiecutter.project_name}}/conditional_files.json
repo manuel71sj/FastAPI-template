@@ -110,8 +110,6 @@
             "{{cookiecutter.project_name}}/web/api/dummy",
             "{{cookiecutter.project_name}}/db_sa/dao",
             "{{cookiecutter.project_name}}/db_sa/models/dummy_model.py",
-            "{{cookiecutter.project_name}}/db_psycopg/dao",
-            "{{cookiecutter.project_name}}/db_psycopg/models/dummy_model.py",
             "{{cookiecutter.project_name}}/tests/test_dummy.py",
             "{{cookiecutter.project_name}}/db_piccolo/dao",
             "{{cookiecutter.project_name}}/db_piccolo/models/dummy_model.py",
@@ -130,12 +128,6 @@
         "enabled": "{{cookiecutter.orm == 'sqlalchemy'}}",
         "resources": [
             "{{cookiecutter.project_name}}/db_sa"
-        ]
-    },
-    "PsycoPG": {
-        "enabled": "{{cookiecutter.orm == 'psycopg'}}",
-        "resources": [
-            "{{cookiecutter.project_name}}/db_psycopg"
         ]
     },
     "Piccolo": {
