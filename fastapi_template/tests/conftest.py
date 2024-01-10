@@ -64,7 +64,6 @@ def default_context(project_name: str) -> None:
         add_dummy=False,
         self_hosted_swagger=False,
         enable_rmq=False,
-        otlp_enabled=False,
         force=True,
     )
 

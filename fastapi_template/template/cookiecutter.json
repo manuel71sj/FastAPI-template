@@ -44,9 +44,6 @@
     "self_hosted_swagger": {
         "type": "bool"
     },
-    "otlp_enabled": {
-        "type": "bool"
-    },
     "gunicorn": {
         "type": "bool"
     },

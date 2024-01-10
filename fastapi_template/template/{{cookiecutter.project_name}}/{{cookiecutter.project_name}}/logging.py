@@ -14,10 +14,6 @@ from pygments.lexers.data import JsonLexer
 
 from {{cookiecutter.project_name}}.settings import settings
 
-{%- if cookiecutter.otlp_enabled == "True" %}
-from opentelemetry.trace import INVALID_SPAN, INVALID_SPAN_CONTEXT, get_current_span
-
-{%- endif %}
 from starlette.datastructures import URL
 
 

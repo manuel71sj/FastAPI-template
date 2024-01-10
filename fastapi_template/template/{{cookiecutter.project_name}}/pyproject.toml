@@ -50,28 +50,6 @@ httptools = "^0.6.0"
 {%- if cookiecutter.enable_rmq == "True" %}
 aio-pika = "^9.1.4"
 {%- endif %}
-{%- if cookiecutter.otlp_enabled == "True" %}
-opentelemetry-api = "^1.22.0"
-opentelemetry-sdk = "^1.22.0"
-opentelemetry-exporter-otlp = "^1.22.0"
-opentelemetry-instrumentation = "^0.43b0"
-opentelemetry-instrumentation-fastapi = "^0.43b0"
-    {%- if cookiecutter.enable_loguru != "True" %}
-opentelemetry-instrumentation-logging = "^0.43b0"
-    {%- endif %}
-    {%- if cookiecutter.enable_redis == "True" %}
-opentelemetry-instrumentation-redis = "^0.43b0"
-    {%- endif %}
-    {%- if cookiecutter.db_info.name == "postgresql" %}
-opentelemetry-instrumentation-asyncpg = "^0.43b0"
-    {%- endif %}
-    {%- if cookiecutter.orm == "sqlalchemy" %}
-opentelemetry-instrumentation-sqlalchemy = "^0.43b0"
-    {%- endif %}
-    {%- if cookiecutter.enable_rmq == "True" %}
-opentelemetry-instrumentation-aio-pika = "^0.43b0"
-    {%- endif %}
-{%- endif %}
 {%- if cookiecutter.enable_loguru == "True" %}
 loguru = "^0.7.0"
 {%- endif %}

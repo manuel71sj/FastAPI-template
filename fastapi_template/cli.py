@@ -359,26 +359,6 @@ features_menu = MultiselectMenuModel(
             ),
         ),
         MenuEntry(
-            code="otlp_enabled",
-            cli_name="opentelemetry",
-            user_view="Add opentelemetry integration",
-            is_hidden=always_hidden(),
-            description=(
-                "{what} is a new way to collect telemetry.\n"
-                "It sends {why} and everything in collectors. Compatible with {comp}.".format(
-                    what=colored("Opentelemetry", color="green"),
-                    why=colored(
-                        "traces, logs",
-                        color="cyan",
-                    ),
-                    comp=colored(
-                        "Jaeger",
-                        color="cyan",
-                    ),
-                )
-            ),
-        ),
-        MenuEntry(
             code="traefik_labels",
             cli_name="traefik",
             user_view="Adds traefik labels to docker container",

@@ -91,14 +91,6 @@ class Settings(BaseSettings):
 
     {%- endif %}
 
-    {%- if cookiecutter.otlp_enabled == "True" %}
-
-    # Grpc endpoint for opentelemetry.
-    # E.G. http://localhost:4317
-    opentelemetry_endpoint: str | None = None
-
-    {%- endif %}
-
     {%- if cookiecutter.enable_kafka == "True" %}
 
     kafka_bootstrap_servers: List[str] = ["{{cookiecutter.project_name}}-kafka:9092"]

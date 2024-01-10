@@ -111,13 +111,6 @@
             "{{cookiecutter.project_name}}/db_sa"
         ]
     },
-    "Opentelemetry support": {
-        "enabled": "{{cookiecutter.otlp_enabled}}",
-        "resources": [
-            "deploy/docker-compose.otlp.yml",
-            "deploy/otel-collector-config.yml"
-        ]
-    },
     "Taskiq support":{
         "enabled": "{{cookiecutter.enable_taskiq}}",
         "resources": [
