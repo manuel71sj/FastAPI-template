@@ -396,7 +396,6 @@ features_menu = MultiselectMenuModel(
         MenuEntry(
             code="gunicorn",
             cli_name="gunicorn",
-            is_hidden=always_hidden(),
             user_view="Add gunicorn server",
             description=(
                 "This option adds {what} server for running application.\n"
