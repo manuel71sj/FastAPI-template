@@ -61,8 +61,7 @@
         "enabled": "{{cookiecutter.enable_migrations}}",
         "resources": [
             "alembic.ini",
-            "{{cookiecutter.project_name}}/db_sa/migrations",
-            "{{cookiecutter.project_name}}/db_piccolo/migrations"
+            "{{cookiecutter.project_name}}/db_sa/migrations"
         ]
     },
     "Alembic migrations": {
@@ -111,10 +110,7 @@
             "{{cookiecutter.project_name}}/db_sa/dao",
             "{{cookiecutter.project_name}}/db_sa/models/dummy_model.py",
             "{{cookiecutter.project_name}}/tests/test_dummy.py",
-            "{{cookiecutter.project_name}}/db_piccolo/dao",
-            "{{cookiecutter.project_name}}/db_piccolo/models/dummy_model.py",
-            "{{cookiecutter.project_name}}/db_sa/migrations/versions/2021-08-16-16-55_2b7380507a71.py",
-            "{{cookiecutter.project_name}}/db_piccolo/migrations/2022-04-16T17-38-51-672827.py"
+            "{{cookiecutter.project_name}}/db_sa/migrations/versions/2021-08-16-16-55_2b7380507a71.py"
         ]
     },
     "Self-hosted swagger": {
@@ -128,13 +124,6 @@
         "enabled": "{{cookiecutter.orm == 'sqlalchemy'}}",
         "resources": [
             "{{cookiecutter.project_name}}/db_sa"
-        ]
-    },
-    "Piccolo": {
-        "enabled": "{{cookiecutter.orm == 'piccolo'}}",
-        "resources": [
-            "{{cookiecutter.project_name}}/db_piccolo",
-            "{{cookiecutter.project_name}}/piccolo_conf.py"
         ]
     },
     "Opentelemetry support": {

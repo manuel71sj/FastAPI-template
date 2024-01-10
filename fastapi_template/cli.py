@@ -221,20 +221,6 @@ orm_menu = SingularMenuModel(
                 )
             ),
         ),
-        MenuEntry(
-            code="piccolo",
-            user_view="Piccolo",
-            pydantic_v1=True,
-            # is_hidden=check_db(["postgresql", "sqlite"]),
-            is_hidden=always_hidden(),
-            description=(
-                "{what} is a great ORM for Postgresql and SQLite.\n"
-                "It's very flexible and fully {feature}.".format(
-                    what=colored("Piccolo", color="green"),
-                    feature=colored("tab-completable", color="cyan"),
-                )
-            ),
-        ),
     ],
 )
 

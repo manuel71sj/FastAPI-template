@@ -34,8 +34,6 @@ async def test_creation(
     assert response.status_code == status.HTTP_200_OK
     {%- if cookiecutter.orm == "sqlalchemy" %}
     dao = DummyDAO(dbsession)
-    {%- elif cookiecutter.orm in ["piccolo"] %}
-    dao = DummyDAO()
     {%- endif %}
     instances = await dao.filter(name=test_name)
     assert instances[0].name == test_name
@@ -52,8 +50,6 @@ async def test_getting(
     """Tests dummy instance retrieval."""
     {%- if cookiecutter.orm == "sqlalchemy" %}
     dao = DummyDAO(dbsession)
-    {%- elif cookiecutter.orm in ["piccolo"] %}
-    dao = DummyDAO()
     {%- endif %}
     test_name = uuid.uuid4().hex
     await dao.create_dummy_model(name=test_name)

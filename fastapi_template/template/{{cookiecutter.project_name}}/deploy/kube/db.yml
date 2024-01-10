@@ -71,11 +71,6 @@ spec:
           - "alembic"
           - "upgrade"
           - "head"
-          {%- elif cookiecutter.orm == 'piccolo' %}
-          - "piccolo"
-          - "migrations"
-          - "forwards"
-          - "all"
           {%- endif %}
         resources:
           limits:
@@ -84,10 +79,6 @@ spec:
         env:
           - name: "{{cookiecutter.project_name | upper }}_DB_HOST"
             value: "{{cookiecutter.kube_name}}-db-service"
-          {%- if cookiecutter.orm == 'piccolo' %}
-          - name: "PICCOLO_CONF"
-            value: "{{cookiecutter.project_name}}.piccolo_conf"
-          {%- endif %}
       initContainers:
         - name: wait-for-db
           image: toschneck/wait-for-it:latest

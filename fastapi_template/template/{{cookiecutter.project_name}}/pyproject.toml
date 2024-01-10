@@ -32,11 +32,6 @@ pydantic-settings = "^2"
 {%- endif %}
 yarl = "^1.9.2"
 ujson = "^5.8.0"
-{%- if cookiecutter.orm == "piccolo" %}
-    {%- if cookiecutter.db_info.name == "postgresql" %}
-piccolo = {version = "^0.117.0", extras = ["postgres"]}
-    {%- endif %}
-{%- endif %}
 {%- if cookiecutter.orm == "sqlalchemy" %}
 SQLAlchemy = {version = "^2.0.18", extras = ["asyncio"]}
     {%- if cookiecutter.enable_migrations == "True" %}
@@ -172,9 +167,6 @@ filterwarnings = [
 env = [
     "{{cookiecutter.project_name | upper}}_ENVIRONMENT=pytest",
     "{{cookiecutter.project_name | upper}}_DB_BASE={{cookiecutter.project_name}}_test",
-    {%- if cookiecutter.orm == "piccolo" %}
-    "PICCOLO_CONF={{cookiecutter.project_name}}.piccolo_conf",
-    {%- endif %}
     {%- if cookiecutter.sentry_enabled == "True" %}
     "{{cookiecutter.project_name | upper}}_SENTRY_DSN=",
     {%- endif %}

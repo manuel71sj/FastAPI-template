@@ -54,7 +54,6 @@ def test_default_without_db(default_context: BuilderContext):
     "orm",
     [
         "sqlalchemy",
-        "piccolo",
     ],
 )
 def test_default_with_db(default_context: BuilderContext, db: str, orm: str):
@@ -68,7 +67,6 @@ def test_default_with_db(default_context: BuilderContext, db: str, orm: str):
     "orm",
     [
         "sqlalchemy",
-        "piccolo",
     ],
 )
 def test_default_for_apis(default_context: BuilderContext, orm: str, api: str):
@@ -79,7 +77,6 @@ def test_default_for_apis(default_context: BuilderContext, orm: str, api: str):
     "orm",
     [
         "sqlalchemy",
-        "piccolo",
     ],
 )
 def test_without_routers(default_context: BuilderContext, orm: str):
@@ -92,7 +89,6 @@ def test_without_routers(default_context: BuilderContext, orm: str):
     "orm",
     [
         "sqlalchemy",
-        "piccolo",
     ],
 )
 def test_without_migrations(default_context: BuilderContext, orm: str):
@@ -110,7 +106,6 @@ def test_with_selfhosted_swagger(default_context: BuilderContext):
     "orm",
     [
         "sqlalchemy",
-        "piccolo",
     ],
 )
 def test_without_dummy(default_context: BuilderContext, orm: str):

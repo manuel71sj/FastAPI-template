@@ -40,9 +40,6 @@ def main() -> None:
     {%- if cookiecutter.prometheus_enabled == "True" %}
     set_multiproc_dir()
     {%- endif %}
-    {%- if cookiecutter.orm == "piccolo" %}
-    os.environ['PICCOLO_CONF'] = "{{cookiecutter.project_name}}.piccolo_conf"
-    {%- endif %}
     {%- if cookiecutter.gunicorn == "True" %}
     if settings.reload:
         uvicorn.run(
