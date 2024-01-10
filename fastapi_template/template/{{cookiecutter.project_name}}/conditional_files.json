@@ -14,8 +14,7 @@
         "resources": [
             "{{cookiecutter.project_name}}/web/api/redis",
             "{{cookiecutter.project_name}}/services/redis",
-            "{{cookiecutter.project_name}}/tests/test_redis.py",
-            "deploy/kube/redis.yml"
+            "{{cookiecutter.project_name}}/tests/test_redis.py"
         ]
     },
     "RabbitMQ support": {
@@ -23,8 +22,7 @@
         "resources": [
             "{{cookiecutter.project_name}}/web/api/rabbit",
             "{{cookiecutter.project_name}}/services/rabbit",
-            "{{cookiecutter.project_name}}/tests/test_rabbit.py",
-            "deploy/kube/redis.yml"
+            "{{cookiecutter.project_name}}/tests/test_rabbit.py"
         ]
     },
     "Kafka support": {
@@ -35,26 +33,13 @@
             "{{cookiecutter.project_name}}/tests/test_kafka.py"
         ]
     },
-    "Kubernetes": {
-        "enabled": "{{cookiecutter.enable_kube}}",
-        "resources": [
-            "deploy/kube"
-        ]
-    },
     "Database support": {
         "enabled": "{{cookiecutter.db_info.name != 'none'}}",
         "resources": [
             "alembic.ini",
             "{{cookiecutter.project_name}}/web/api/dummy",
             "{{cookiecutter.project_name}}/db_sa",
-            "{{cookiecutter.project_name}}/tests/test_dummy.py",
-            "deploy/kube/db.yml"
-        ]
-    },
-    "Postgres and MySQL support": {
-        "enabled": "{{cookiecutter.db_info.name != 'sqlite'}}",
-        "resources": [
-            "deploy/kube/db.yml"
+            "{{cookiecutter.project_name}}/tests/test_dummy.py"
         ]
     },
     "Migrations": {

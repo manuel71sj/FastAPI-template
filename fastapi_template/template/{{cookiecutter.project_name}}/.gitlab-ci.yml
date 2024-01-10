@@ -5,7 +5,6 @@ stages:
   stage: test
   image: python:3.9.6-slim-buster
   tags:
-    - kubernetes-runner
     - docker-runner
   except:
     - tags

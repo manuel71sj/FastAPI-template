@@ -181,7 +181,7 @@ ci_menu = SingularMenuModel(
                         color="cyan",
                     ),
                     warn=colored(
-                        "To use it please use docker or kubernetes executors",
+                        "To use it please use docker executors",
                         color="red",
                         attrs=["underline"],
                     ),
@@ -303,20 +303,6 @@ features_menu = MultiselectMenuModel(
                 "This options adds ability to {why} database schema.".format(
                     what=colored("schema migration", color="green"),
                     why=colored("automatically update", color="cyan"),
-                )
-            ),
-        ),
-        MenuEntry(
-            code="enable_kube",
-            cli_name="kube",
-            user_view="Add kubernetes configs",
-            is_hidden=always_hidden(),
-            description=(
-                "This option will add {what} manifests to your project.\n"
-                "But this option is {warn}, since if you want to use k8s, please create helm.".format(
-                    what=colored("kubernetes", color="green"),
-                    warn=colored("deprecated", color="red",
-                                 attrs=["underline"]),
                 )
             ),
         ),
@@ -525,7 +511,6 @@ def handle_cli(
                 "Project name: ",
                 validator=SnakeCaseValidator(),
             )
-        context.kube_name = context.project_name.replace("_", "-")
 
         for menu in menus:
             if menu.need_ask(context):
