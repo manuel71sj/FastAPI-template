@@ -76,13 +76,3 @@ async def drop_database() -> None:
     async with engine.connect() as conn:
         await conn.execute(text(f'DROP DATABASE {settings.db_base};'))
 {%- endif %}
-{%- if cookiecutter.db_info.name == "sqlite" %}
-async def create_database() -> None:
-    """Create a database."""
-
-async def drop_database() -> None:
-    """Drop current database."""
-    if settings.db_file.exists():
-        os.remove(settings.db_file)
-
-{%- endif %}

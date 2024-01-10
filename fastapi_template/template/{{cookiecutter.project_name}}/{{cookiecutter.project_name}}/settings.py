@@ -61,15 +61,11 @@ class Settings(BaseSettings):
     {% if cookiecutter.db_info.name != "none" -%}
 
     # Variables for the database
-    {%- if cookiecutter.db_info.name == "sqlite" %}
-    db_file: Path = TEMP_DIR / "db.sqlite3"
-    {%- else %}
     db_host: str = "localhost"
     db_port: int = {{cookiecutter.db_info.port}}
     db_user: str = "{{cookiecutter.project_name}}"
     db_pass: str = "{{cookiecutter.project_name}}"
     db_base: str = "{{cookiecutter.project_name}}"
-    {%- endif %}
     db_echo: bool = False
 
     {%- endif %}
@@ -144,18 +140,6 @@ class Settings(BaseSettings):
 
         :return: database URL.
         """
-        {%- if cookiecutter.db_info.name == "sqlite" %}
-        return URL.build(
-            {%- if cookiecutter.orm == "sqlalchemy" %}
-            scheme="{{cookiecutter.db_info.async_driver}}",
-            {%- elif cookiecutter.orm == "tortoise" %}
-            scheme="{{cookiecutter.db_info.driver_short}}",
-            {%- else %}
-            scheme="{{cookiecutter.db_info.driver}}",
-            {%- endif %}
-            path=f"///{self.db_file}"
-        )
-        {%- else %}
         return URL.build(
             {%- if cookiecutter.orm == "sqlalchemy" %}
             scheme="{{cookiecutter.db_info.async_driver}}",
@@ -170,7 +154,6 @@ class Settings(BaseSettings):
             password=self.db_pass,
             path=f"/{self.db_base}",
         )
-        {%- endif %}
     {%- endif %}
 
     {%- if cookiecutter.enable_redis == "True" %}

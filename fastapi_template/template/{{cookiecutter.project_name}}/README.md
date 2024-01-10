@@ -217,7 +217,6 @@ docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.dev.yml --p
 For running tests on your local machine.
 
 {%- if cookiecutter.db_info.name != "none" %}
-{%- if cookiecutter.db_info.name != "sqlite" %}
 1. you need to start a database.
 
 I prefer doing it with docker:
@@ -229,7 +228,6 @@ docker run -p "{{cookiecutter.db_info.port}}:{{cookiecutter.db_info.port}}" -e "
 docker run -p "{{cookiecutter.db_info.port}}:{{cookiecutter.db_info.port}}" -e "MYSQL_PASSWORD={{cookiecutter.project_name}}" -e "MYSQL_USER={{cookiecutter.project_name}}" -e "MYSQL_DATABASE={{cookiecutter.project_name}}" -e ALLOW_EMPTY_PASSWORD=yes {{cookiecutter.db_info.image}}
 {%- endif %}
 ```
-{%- endif %}
 {%- endif %}
 
 

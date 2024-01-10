@@ -13,13 +13,6 @@ DB = PostgresEngine(
         "port": settings.db_port,
     }
 )
-
-
-
-{%- elif cookiecutter.db_info.name == "sqlite" %}
-from piccolo.engine.sqlite import SQLiteEngine
-
-DB = SQLiteEngine(path=str(settings.db_file))
 {%- endif %}
 
 

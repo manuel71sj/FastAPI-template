@@ -47,11 +47,11 @@ jobs:
         run: poetry run mypy .
   pytest:
     runs-on: ubuntu-latest
-    {%- if ((cookiecutter.db_info.name != "none" and cookiecutter.db_info.name != "sqlite") or
+    {%- if ((cookiecutter.db_info.name != "none") or
           (cookiecutter.enable_rmq == "True") or
           (cookiecutter.enable_kafka == "True")) %}
     services:
-      {%- if cookiecutter.db_info.name != "none" and cookiecutter.db_info.name != "sqlite" %}
+      {%- if cookiecutter.db_info.name != "none" %}
 
       {{cookiecutter.project_name}}-db:
         image: {{ cookiecutter.db_info.image }}
@@ -145,9 +145,7 @@ jobs:
         env:
           {{ cookiecutter.project_name | upper }}_HOST: "0.0.0.0"
         {%- if cookiecutter.db_info.name != "none" %}
-        {%- if cookiecutter.db_info.name != "sqlite" %}
           {{ cookiecutter.project_name | upper }}_DB_HOST: localhost
-        {%- endif %}
         {%- endif %}
         {%- if cookiecutter.enable_rmq == "True" %}
           {{ cookiecutter.project_name | upper }}_RABBIT_HOST: localhost

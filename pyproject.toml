@@ -33,7 +33,6 @@ minversion = "6.0"
 markers = [
     "pg: tests for postgresql.",
     "mysql: tests for mysql.",
-    "sqlite: tests for sqlite3.",
 ]
 env = [
     "POETRY_VIRTUALENVS_IN_PROJECT=True"

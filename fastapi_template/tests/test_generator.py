@@ -47,7 +47,6 @@ def test_default_without_db(default_context: BuilderContext):
     "db",
     [
         "postgresql",
-        "sqlite",
         "mysql",
     ],
 )
@@ -183,4 +182,3 @@ def test_telemetry_pre_commit(default_context: BuilderContext):
 def test_gunicorn(default_context: BuilderContext):
     default_context.gunicorn = True
     run_default_check(default_context, without_pytest=True)
-    

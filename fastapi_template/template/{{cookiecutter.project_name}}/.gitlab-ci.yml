@@ -35,11 +35,11 @@ mypy:
 pytest:
   extends:
     - .test-template
-  {%- if ((cookiecutter.db_info.name != "none" and cookiecutter.db_info.name != "sqlite") or
+  {%- if ((cookiecutter.db_info.name != "none") or
           (cookiecutter.enable_rmq == "True") or
           (cookiecutter.enable_kafka == "True")) %}
   services:
-    {%- if cookiecutter.db_info.name != "none" and cookiecutter.db_info.name != "sqlite" %}
+    {%- if cookiecutter.db_info.name != "none" %}
     - name: {{ cookiecutter.db_info.image }}
       alias: database
     {%- endif %}
@@ -93,11 +93,9 @@ pytest:
   {%- endif %}
   script:
     {%- if cookiecutter.db_info.name != "none" %}
-    {%- if cookiecutter.db_info.name != "sqlite" %}
     - apt update
     - apt install -y wait-for-it
     - wait-for-it -t 180 ${{ cookiecutter.project_name | upper }}_DB_HOST:{{cookiecutter.db_info.port}}
-    {%- endif %}
     {%- endif %}
     - pytest -vv --junitxml=report.xml --cov="{{cookiecutter.project_name}}" .
     - coverage xml

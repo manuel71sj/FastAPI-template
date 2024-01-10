@@ -114,31 +114,6 @@ db_menu = SingularMenuModel(
             ),
         ),
         MenuEntry(
-            code="sqlite",
-            user_view="SQLite database",
-            description=(
-                "{name} is a good embeddable database.\n"
-                "This option will be a great fit for {small} systems where you are "
-                "going to run {how_many} of your application.".format(
-                    name=colored("SQLite", color="green"),
-                    small=colored("small", color="cyan", attrs=["underline"]),
-                    how_many=colored(
-                        "only one instance",
-                        color="red",
-                        attrs=["bold", "underline"],
-                    ),
-                )
-            ),
-            additional_info=Database(
-                name="sqlite",
-                image=None,
-                async_driver="sqlite+aiosqlite",
-                driver_short="sqlite",
-                driver="sqlite",
-                port=None,
-            ),
-        ),
-        MenuEntry(
             code="mysql",
             user_view="MySQL database",
             description=(

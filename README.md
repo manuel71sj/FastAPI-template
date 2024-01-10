@@ -84,8 +84,7 @@ Options:
   --force                         Owerrite directory if it exists
   --quite                         Do not ask for features during generation
   --api-type [rest]               Select API type for your application
-  --db [none|sqlite|mysql|postgresql]
-                                  Select a database for your app
+  --db [none|mysql|postgresql]    Select a database for your app
   --orm [none|ormar|sqlalchemy|tortoise|psycopg|piccolo]
                                   Choose Object–Relational Mapper lib
   --ci [none|gitlab_ci|github]    Select a CI for your app
