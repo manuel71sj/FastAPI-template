@@ -7,6 +7,7 @@ from httpx import AsyncClient
 
 {%- if cookiecutter.orm == 'sqlalchemy' %}
 from sqlalchemy.ext.asyncio import AsyncSession
+{%- endif %}
 
 from starlette import status
 from {{cookiecutter.project_name}}.db.dao.dummy_dao import DummyDAO

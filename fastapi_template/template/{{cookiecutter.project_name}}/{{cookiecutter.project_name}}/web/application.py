@@ -85,8 +85,9 @@ def get_app() -> FastAPI:
         default_response_class=UJSONResponse,
     )
 
+    {%- if cookiecutter.enable_loguru == "True" %}
     app.add_middleware(BaseHTTPMiddleware, dispatch=log_request_middleware)
-
+    {% endif %}
     # Adds startup and shutdown events.
     register_startup_event(app)
     register_shutdown_event(app)

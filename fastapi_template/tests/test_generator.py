@@ -17,18 +17,12 @@ def init_context(
     for entry in db_menu.entries:
         if entry.code == db:
             db_info = model_dump_compat(entry.additional_info)
-            if entry.pydantic_v1:
-                context.pydanticv1 = True
     if db_info is None:
         raise ValueError(f"Unknown database: {db}")
 
     context.db = db
     context.db_info = db_info
     context.orm = orm
-    for entry in orm_menu.entries:
-        if entry.code == orm:
-            if entry.pydantic_v1:
-                context.pydanticv1 = True
 
     if api is not None:
         context.api_type = api

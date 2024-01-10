@@ -24,12 +24,8 @@ httpx-oauth = "^0.13.1"
 fastapi-users-db-sqlmodel = "^0.3.0"
     {%- endif %}
 {%- endif %}
-{%- if cookiecutter.pydanticv1 == "True" %}
-pydantic = { version = "^1", extras=["dotenv"] }
-    {%- else %}
 pydantic = "^2"
 pydantic-settings = "^2"
-{%- endif %}
 yarl = "^1.9.2"
 ujson = "^5.8.0"
 {%- if cookiecutter.orm == "sqlalchemy" %}

@@ -4,13 +4,7 @@ from pathlib import Path
 from tempfile import gettempdir
 from typing import List, Optional
 
-{%- if cookiecutter.pydanticv1 == "True" %}
-from pydantic import BaseSettings
-
-{%- else %}
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-{%- endif %}
 
 from yarl import URL
 
@@ -193,20 +187,10 @@ class Settings(BaseSettings):
         )
     {%- endif %}
 
-    {%- if cookiecutter.pydanticv1 == "True" %}
-    class Config:
-        env_file = ".env"
-        env_prefix = "{{cookiecutter.project_name | upper }}_"
-        env_file_encoding = "utf-8"
-
-    {%- else %}
     model_config = SettingsConfigDict(
         env_file = ".env",
         env_prefix = "{{cookiecutter.project_name | upper }}_",
         env_file_encoding = "utf-8",
     )
-    {%- endif %}
-
-
 
 settings = Settings()
