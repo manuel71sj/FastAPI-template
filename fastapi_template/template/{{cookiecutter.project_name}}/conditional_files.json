@@ -79,12 +79,6 @@
             ".gitlab-ci.yml"
         ]
     },
-    "Github CI": {
-        "enabled": "{{cookiecutter.ci_type == 'github'}}",
-        "resources": [
-            ".github"
-        ]
-    },
     "Loguru": {
         "enabled": "{{cookiecutter.enable_loguru}}",
         "resources": [

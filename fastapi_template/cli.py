@@ -186,20 +186,6 @@ ci_menu = SingularMenuModel(
                 )
             ),
         ),
-        MenuEntry(
-            code="github",
-            user_view="Github Actions",
-            description=(
-                "Use this option if you use github as your VCS.\n"
-                "This option will create {file} file that adds test jobs for your project.".format(
-                    file=colored(
-                        "`.github/workflows/tests.yml`",
-                        color="cyan",
-                    )
-                )
-            ),
-            is_hidden=always_hidden(),
-        ),
     ],
 )
 

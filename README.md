@@ -87,7 +87,7 @@ Options:
   --db [none|mysql|postgresql]    Select a database for your app
   --orm [none|ormar|sqlalchemy|tortoise|psycopg|piccolo]
                                   Choose Object–Relational Mapper lib
-  --ci [none|gitlab_ci|github]    Select a CI for your app
+  --ci [none|gitlab_ci]    Select a CI for your app
   --redis                         Add redis support
   --rabbit                        Add RabbitMQ support
   --taskiq                        Add Taskiq support
