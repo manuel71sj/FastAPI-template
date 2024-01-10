@@ -34,22 +34,6 @@ async def test_message_publishing(
             "message": message_text,
         },
     )
-    {%- elif cookiecutter.api_type == 'graphql' %}
-    url = fastapi_app.url_path_for('handle_http_post')
-    await client.post(
-        url,
-        json={
-            "query": "mutation($message:RabbitMessageDTO!)"
-                     "{sendRabbitMessage(message:$message)}",
-            "variables": {
-                "message": {
-                    "exchangeName": test_exchange_name,
-                    "routingKey": test_routing_key,
-                    "message": message_text,
-                },
-            },
-        },
-    )
     {%- endif %}
     message = await test_queue.get(timeout=1)
     assert message is not None
@@ -84,22 +68,6 @@ async def test_message_wrong_exchange(   # noqa: PLR0913
             "exchange_name": random_exchange,
             "routing_key": test_routing_key,
             "message": message_text,
-        },
-    )
-    {%- elif cookiecutter.api_type == 'graphql' %}
-    url = fastapi_app.url_path_for('handle_http_post')
-    await client.post(
-        url,
-        json={
-            "query": "mutation($message:RabbitMessageDTO!)"
-                     "{sendRabbitMessage(message:$message)}",
-            "variables": {
-                "message": {
-                    "exchangeName": random_exchange,
-                    "routingKey": test_routing_key,
-                    "message": message_text,
-                },
-            },
         },
     )
     {%- endif %}

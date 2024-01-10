@@ -1,10 +1,4 @@
 {
-    "GraphQL API": {
-        "enabled": "{{cookiecutter.api_type == 'graphql'}}",
-        "resources": [
-            "{{cookiecutter.project_name}}/web/gql"
-        ]
-    },
     "REST API": {
         "enabled": "{{cookiecutter.api_type == 'rest'}}",
         "resources": [
@@ -19,7 +13,6 @@
         "enabled": "{{cookiecutter.enable_redis}}",
         "resources": [
             "{{cookiecutter.project_name}}/web/api/redis",
-            "{{cookiecutter.project_name}}/web/gql/redis",
             "{{cookiecutter.project_name}}/services/redis",
             "{{cookiecutter.project_name}}/tests/test_redis.py",
             "deploy/kube/redis.yml"
@@ -29,7 +22,6 @@
         "enabled": "{{cookiecutter.enable_rmq}}",
         "resources": [
             "{{cookiecutter.project_name}}/web/api/rabbit",
-            "{{cookiecutter.project_name}}/web/gql/rabbit",
             "{{cookiecutter.project_name}}/services/rabbit",
             "{{cookiecutter.project_name}}/tests/test_rabbit.py",
             "deploy/kube/redis.yml"
@@ -39,7 +31,6 @@
         "enabled": "{{cookiecutter.enable_kafka}}",
         "resources": [
             "{{cookiecutter.project_name}}/web/api/kafka",
-            "{{cookiecutter.project_name}}/web/gql/kafka",
             "{{cookiecutter.project_name}}/services/kafka",
             "{{cookiecutter.project_name}}/tests/test_kafka.py"
         ]
@@ -55,7 +46,6 @@
         "resources": [
             "alembic.ini",
             "{{cookiecutter.project_name}}/web/api/dummy",
-            "{{cookiecutter.project_name}}/web/gql/dummy",
             "{{cookiecutter.project_name}}/db_sa",
             "{{cookiecutter.project_name}}/tests/test_dummy.py",
             "deploy/kube/db.yml"
@@ -105,15 +95,10 @@
         "enabled": "{{cookiecutter.enable_routers}}",
         "resources": [
             "{{cookiecutter.project_name}}/web/api/echo",
-            "{{cookiecutter.project_name}}/web/gql/echo",
             "{{cookiecutter.project_name}}/web/api/dummy",
-            "{{cookiecutter.project_name}}/web/gql/dummy",
             "{{cookiecutter.project_name}}/web/api/redis",
-            "{{cookiecutter.project_name}}/web/gql/redis",
             "{{cookiecutter.project_name}}/web/api/kafka",
-            "{{cookiecutter.project_name}}/web/gql/kafka",
             "{{cookiecutter.project_name}}/web/api/rabbit",
-            "{{cookiecutter.project_name}}/web/gql/rabbit",
             "{{cookiecutter.project_name}}/tests/test_echo.py",
             "{{cookiecutter.project_name}}/tests/test_dummy.py",
             "{{cookiecutter.project_name}}/tests/test_redis.py",
@@ -131,7 +116,6 @@
         "enabled": "{{cookiecutter.add_dummy}}",
         "resources": [
             "{{cookiecutter.project_name}}/web/api/dummy",
-            "{{cookiecutter.project_name}}/web/gql/dummy",
             "{{cookiecutter.project_name}}/db_sa/dao",
             "{{cookiecutter.project_name}}/db_sa/models/dummy_model.py",
             "{{cookiecutter.project_name}}/db_ormar/dao",

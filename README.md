@@ -51,7 +51,7 @@ This project can run as TUI or CLI and has excellent code documentation.
 
 Generator features:
 - Pydantic V2 (Where it's possible. Some libs doesn't have support);
-- You can choose between GraphQL and REST api;
+- You can choose REST api;
 - Uvicorn and gunicorn;
 - Different databases support;
 - Different ORMs support;
@@ -83,7 +83,7 @@ Options:
   -V, --version                   Prints current version
   --force                         Owerrite directory if it exists
   --quite                         Do not ask for features during generation
-  --api-type [rest|graphql]       Select API type for your application
+  --api-type [rest]               Select API type for your application
   --db [none|sqlite|mysql|postgresql]
                                   Select a database for your app
   --orm [none|ormar|sqlalchemy|tortoise|psycopg|piccolo]

@@ -5,10 +5,6 @@ from fastapi.responses import UJSONResponse
 from {{cookiecutter.project_name}}.settings import settings
 from {{cookiecutter.project_name}}.web.api.router import api_router
 
-{%- if cookiecutter.api_type == 'graphql' %}
-from {{cookiecutter.project_name}}.web.gql.router import gql_router
-
-{%- endif %}
 from importlib import metadata
 
 from {{cookiecutter.project_name}}.web.lifetime import (register_shutdown_event,
@@ -102,10 +98,6 @@ def get_app() -> FastAPI:
 
     # Main router for the API.
     app.include_router(router=api_router, prefix="/api")
-    {%- if cookiecutter.api_type == 'graphql' %}
-    # Graphql router
-    app.include_router(router=gql_router, prefix="/graphql")
-    {%- endif %}
 
     {%- if cookiecutter.self_hosted_swagger == 'True' %}
     # Adds static directory.

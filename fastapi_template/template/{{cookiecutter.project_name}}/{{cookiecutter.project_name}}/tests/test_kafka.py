@@ -41,21 +41,6 @@ async def test_message_publishing(
             "message": message,
         },
     )
-    {%- elif cookiecutter.api_type == 'graphql' %}
-    url = fastapi_app.url_path_for('handle_http_post')
-    response = await client.post(
-        url,
-        json={
-            "query": "mutation($message:KafkaMessageDTO!)"
-                     "{sendKafkaMessage(message:$message)}",
-            "variables": {
-                "message": {
-                    "topic": topic_name,
-                    "message": message,
-                },
-            },
-        },
-    )
     {%- endif %}
 
 

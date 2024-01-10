@@ -32,8 +32,6 @@ def init_context(
 
     if api is not None:
         context.api_type = api
-        if api == "graphql":
-            context.pydanticv1 = True
 
     context.enable_migrations = db != "none"
     context.add_dummy = db != "none"
@@ -68,7 +66,7 @@ def test_default_with_db(default_context: BuilderContext, db: str, orm: str):
     run_default_check(init_context(default_context, db, orm))
 
 
-@pytest.mark.parametrize("api", ["rest", "graphql"])
+@pytest.mark.parametrize("api", ["rest"])
 @pytest.mark.parametrize(
     "orm",
     [
@@ -148,15 +146,13 @@ def test_without_dummy(default_context: BuilderContext, orm: str):
     "api",
     [
         "rest",
-        "graphql",
     ],
 )
 def test_redis(default_context: BuilderContext, api: str):
     default_context.enable_redis = True
     default_context.enable_taskiq = True
     default_context.api_type = api
-    if api == "graphql":
-        default_context.pydanticv1 = True
+
     run_default_check(default_context)
 
 
@@ -164,15 +160,13 @@ def test_redis(default_context: BuilderContext, api: str):
     "api",
     [
         "rest",
-        "graphql",
     ],
 )
 def test_rmq(default_context: BuilderContext, api: str):
     default_context.enable_rmq = True
     default_context.enable_taskiq = True
     default_context.api_type = api
-    if api == "graphql":
-        default_context.pydanticv1 = True
+
     run_default_check(default_context)
 
 
@@ -189,10 +183,4 @@ def test_telemetry_pre_commit(default_context: BuilderContext):
 def test_gunicorn(default_context: BuilderContext):
     default_context.gunicorn = True
     run_default_check(default_context, without_pytest=True)
-
-
-# @pytest.mark.parametrize("api", ["rest", "graphql"])
-# def test_kafka(default_context: BuilderContext, api: str):
-#     default_context.enable_kafka = True
-#     default_context.api_type = api
-#     run_default_check(default_context)
+    
