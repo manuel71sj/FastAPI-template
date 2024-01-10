@@ -71,9 +71,6 @@ spec:
           - "alembic"
           - "upgrade"
           - "head"
-          {%- elif cookiecutter.orm == 'tortoise' %}
-          - "aerich"
-          - "upgrade"
           {%- elif cookiecutter.orm == 'piccolo' %}
           - "piccolo"
           - "migrations"

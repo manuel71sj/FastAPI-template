@@ -161,9 +161,6 @@ alembic upgrade "<revision_id>"
 
 # To perform all pending migrations.
 alembic upgrade "head"
-{%- elif cookiecutter.orm == 'tortoise' %}
-# Upgrade database to the last migration.
-aerich upgrade
 
 {%- elif cookiecutter.orm == 'piccolo' %}
 # You have to set a PICCOLO_CONF variable
@@ -183,8 +180,6 @@ alembic downgrade <revision_id>
 
 # Revert everything.
  alembic downgrade base
-{%- elif cookiecutter.orm == 'tortoise' %}
-aerich downgrade
 {%- endif %}
 ```
 
@@ -198,8 +193,6 @@ alembic revision --autogenerate
 
 # For empty file generation.
 alembic revision
-{%- elif cookiecutter.orm == 'tortoise' %}
-aerich migrate
 {%- endif %}
 ```
 {%- endif %}

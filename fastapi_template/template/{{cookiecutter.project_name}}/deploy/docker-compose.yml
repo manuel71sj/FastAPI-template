@@ -120,8 +120,6 @@ services:
     restart: "no"
     {%- if cookiecutter.orm in ['sqlalchemy'] %}
     command: alembic upgrade head
-    {%- elif cookiecutter.orm == 'tortoise' %}
-    command: aerich upgrade
     {%- elif cookiecutter.orm == 'piccolo' %}
     command: piccolo migrations forwards all
     {%- endif %}

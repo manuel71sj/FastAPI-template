@@ -43,14 +43,6 @@ from sqlalchemy.ext.asyncio import (AsyncConnection, AsyncEngine, AsyncSession,
 from {{cookiecutter.project_name}}.db.dependencies import get_db_session
 from {{cookiecutter.project_name}}.db.utils import create_database, drop_database
 
-{%- elif cookiecutter.orm == "tortoise" %}
-import nest_asyncio
-from tortoise import Tortoise
-from tortoise.contrib.test import finalizer, initializer
-from {{cookiecutter.project_name}}.db.config import MODELS_MODULES, TORTOISE_CONFIG
-
-nest_asyncio.apply()
-
 {%- elif cookiecutter.orm == "psycopg" %}
 from psycopg import AsyncConnection
 from psycopg_pool import AsyncConnectionPool
@@ -129,27 +121,6 @@ async def dbsession(
         await session.close()
         await trans.rollback()
         await connection.close()
-
-{%- elif cookiecutter.orm == "tortoise" %}
-
-@pytest.fixture(autouse=True)
-async def initialize_db() -> AsyncGenerator[None, None]:
-    """
-    Initialize models and database.
-
-    :yields: Nothing.
-    """
-    initializer(
-        MODELS_MODULES,
-        db_url=str(settings.db_url),
-        app_label="models",
-    )
-    await Tortoise.init(config=TORTOISE_CONFIG)
-
-    yield
-
-    await Tortoise.close_connections()
-    finalizer()
 
 {%- elif cookiecutter.orm == "psycopg" %}
 

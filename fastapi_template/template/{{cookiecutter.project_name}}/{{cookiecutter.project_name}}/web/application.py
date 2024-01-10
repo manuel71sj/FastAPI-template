@@ -10,11 +10,6 @@ from importlib import metadata
 from {{cookiecutter.project_name}}.web.lifetime import (register_shutdown_event,
                                                         register_startup_event)
 
-{%- if cookiecutter.orm == 'tortoise' %}
-from tortoise.contrib.fastapi import register_tortoise
-from {{cookiecutter.project_name}}.db.config import TORTOISE_CONFIG
-
-{%- endif %}
 
 {%- if cookiecutter.sentry_enabled == "True" %}
 import sentry_sdk
@@ -108,17 +103,5 @@ def get_app() -> FastAPI:
         name="static"
     )
     {% endif %}
-
-    {%- if cookiecutter.orm == 'tortoise' %}
-    # Configures tortoise orm.
-    register_tortoise(
-        app,
-        config=TORTOISE_CONFIG,
-        add_exception_handlers=True,
-        {%- if cookiecutter.enable_migrations != "True" %}
-        generate_schemas=True,
-        {%- endif %}
-    )
-    {%- endif %}
 
     return app

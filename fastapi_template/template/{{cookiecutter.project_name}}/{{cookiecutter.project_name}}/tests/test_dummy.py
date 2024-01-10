@@ -43,7 +43,7 @@ async def test_creation(
     dao = DummyDAO(dbsession)
     {%- elif cookiecutter.orm == "psycopg" %}
     dao = DummyDAO(dbpool)
-    {%- elif cookiecutter.orm in ["tortoise", "piccolo"] %}
+    {%- elif cookiecutter.orm in ["piccolo"] %}
     dao = DummyDAO()
     {%- endif %}
     instances = await dao.filter(name=test_name)
@@ -65,7 +65,7 @@ async def test_getting(
     dao = DummyDAO(dbsession)
     {%- elif cookiecutter.orm == "psycopg" %}
     dao = DummyDAO(dbpool)
-    {%- elif cookiecutter.orm in ["tortoise", "piccolo"] %}
+    {%- elif cookiecutter.orm in ["piccolo"] %}
     dao = DummyDAO()
     {%- endif %}
     test_name = uuid.uuid4().hex

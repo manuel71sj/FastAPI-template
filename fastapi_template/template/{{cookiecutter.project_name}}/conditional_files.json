@@ -62,7 +62,6 @@
         "resources": [
             "alembic.ini",
             "{{cookiecutter.project_name}}/db_sa/migrations",
-            "{{cookiecutter.project_name}}/db_tortoise/migrations",
             "{{cookiecutter.project_name}}/db_piccolo/migrations"
         ]
     },
@@ -111,16 +110,12 @@
             "{{cookiecutter.project_name}}/web/api/dummy",
             "{{cookiecutter.project_name}}/db_sa/dao",
             "{{cookiecutter.project_name}}/db_sa/models/dummy_model.py",
-            "{{cookiecutter.project_name}}/db_tortoise/dao",
-            "{{cookiecutter.project_name}}/db_tortoise/models/dummy_model.py",
             "{{cookiecutter.project_name}}/db_psycopg/dao",
             "{{cookiecutter.project_name}}/db_psycopg/models/dummy_model.py",
             "{{cookiecutter.project_name}}/tests/test_dummy.py",
             "{{cookiecutter.project_name}}/db_piccolo/dao",
             "{{cookiecutter.project_name}}/db_piccolo/models/dummy_model.py",
             "{{cookiecutter.project_name}}/db_sa/migrations/versions/2021-08-16-16-55_2b7380507a71.py",
-            "{{cookiecutter.project_name}}/db_tortoise/migrations/models/1_20210928165300_init_dummy_pg.sql",
-            "{{cookiecutter.project_name}}/db_tortoise/migrations/models/1_20210928165300_init_dummy_mysql.sql",
             "{{cookiecutter.project_name}}/db_piccolo/migrations/2022-04-16T17-38-51-672827.py"
         ]
     },
@@ -137,12 +132,6 @@
             "{{cookiecutter.project_name}}/db_sa"
         ]
     },
-    "Tortoise ORM": {
-        "enabled": "{{cookiecutter.orm == 'tortoise'}}",
-        "resources": [
-            "{{cookiecutter.project_name}}/db_tortoise"
-        ]
-    },
     "PsycoPG": {
         "enabled": "{{cookiecutter.orm == 'psycopg'}}",
         "resources": [
@@ -154,20 +143,6 @@
         "resources": [
             "{{cookiecutter.project_name}}/db_piccolo",
             "{{cookiecutter.project_name}}/piccolo_conf.py"
-        ]
-    },
-    "Postgresql DB": {
-        "enabled": "{{cookiecutter.db_info.name == 'postgresql'}}",
-        "resources": [
-            "{{cookiecutter.project_name}}/db_tortoise/migrations/models/0_20210928165300_init_pg.sql",
-            "{{cookiecutter.project_name}}/db_tortoise/migrations/models/1_20210928165300_init_dummy_pg.sql"
-        ]
-    },
-    "MySQL DB": {
-        "enabled": "{{cookiecutter.db_info.name == 'mysql'}}",
-        "resources": [
-            "{{cookiecutter.project_name}}/db_tortoise/migrations/models/0_20210928165300_init_mysql.sql",
-            "{{cookiecutter.project_name}}/db_tortoise/migrations/models/1_20210928165300_init_dummy_mysql.sql"
         ]
     },
     "Opentelemetry support": {

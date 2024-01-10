@@ -43,26 +43,22 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.trace import set_tracer_provider
 
-{%- if cookiecutter.enable_redis == "True" %}
+    {%- if cookiecutter.enable_redis == "True" %}
 from opentelemetry.instrumentation.redis import RedisInstrumentor
 
-{%- endif %}
-{%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["tortoise"] %}
-from opentelemetry.instrumentation.asyncpg import AsyncPGInstrumentor
-
-{%- endif %}
-{%- if cookiecutter.orm == "sqlalchemy" %}
+    {%- endif %}
+    {%- if cookiecutter.orm == "sqlalchemy" %}
 from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 
-{%- endif %}
-{%- if cookiecutter.enable_rmq == "True" %}
+    {%- endif %}
+    {%- if cookiecutter.enable_rmq == "True" %}
 from opentelemetry.instrumentation.aio_pika import AioPikaInstrumentor
 
-{%- endif %}
+    {%- endif %}
 {%- if cookiecutter.enable_loguru != "True" %}
 from opentelemetry.instrumentation.logging import LoggingInstrumentor
 
-{%- endif %}
+    {%- endif %}
 {%- endif %}
 
 {%- if cookiecutter.orm == "psycopg" %}
@@ -83,11 +79,11 @@ async def _setup_db(app: FastAPI) -> None:
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-{%- if cookiecutter.enable_migrations != "True" %}
+    {%- if cookiecutter.enable_migrations != "True" %}
 from {{cookiecutter.project_name}}.db.meta import meta
 from {{cookiecutter.project_name}}.db.models import load_all_models
 
-{%- endif %}
+    {%- endif %}
 
 
 def _setup_db(app: FastAPI) -> None:  # pragma: no cover
@@ -110,17 +106,17 @@ def _setup_db(app: FastAPI) -> None:  # pragma: no cover
 {%- endif %}
 
 {%- if cookiecutter.enable_migrations != "True" %}
-{%- if cookiecutter.orm in ["sqlalchemy"] %}
+    {%- if cookiecutter.orm in ["sqlalchemy"] %}
 async def _create_tables() -> None:  # pragma: no cover
     """Populates tables in the database."""
     load_all_models()
-    {%- if cookiecutter.orm == "sqlalchemy" %}
+        {%- if cookiecutter.orm == "sqlalchemy" %}
     engine = create_async_engine(str(settings.db_url))
     async with engine.begin() as connection:
         await connection.run_sync(meta.create_all)
     await engine.dispose()
+        {%- endif %}
     {%- endif %}
-{%- endif %}
 {%- endif %}
 
 {%- if cookiecutter.otlp_enabled == "True" %}
@@ -173,11 +169,6 @@ def setup_opentelemetry(app: FastAPI) -> None:  # pragma: no cover
         tracer_provider=tracer_provider,
     )
     {%- endif %}
-    {%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["tortoise"] %}
-    AsyncPGInstrumentor().instrument(
-        tracer_provider=tracer_provider,
-    )
-    {%- endif %}
     {%- if cookiecutter.orm == "sqlalchemy" %}
     SQLAlchemyInstrumentor().instrument(
         tracer_provider=tracer_provider,
@@ -212,9 +203,6 @@ def stop_opentelemetry(app: FastAPI) -> None:  # pragma: no cover
     FastAPIInstrumentor().uninstrument_app(app)
     {%- if cookiecutter.enable_redis == "True" %}
     RedisInstrumentor().uninstrument()
-    {%- endif %}
-    {%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["tortoise"] %}
-    AsyncPGInstrumentor().uninstrument()
     {%- endif %}
     {%- if cookiecutter.orm == "sqlalchemy" %}
     SQLAlchemyInstrumentor().uninstrument()

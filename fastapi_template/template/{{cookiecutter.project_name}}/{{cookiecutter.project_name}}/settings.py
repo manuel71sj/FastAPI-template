@@ -143,8 +143,6 @@ class Settings(BaseSettings):
         return URL.build(
             {%- if cookiecutter.orm == "sqlalchemy" %}
             scheme="{{cookiecutter.db_info.async_driver}}",
-            {%- elif cookiecutter.orm == "tortoise" %}
-            scheme="{{cookiecutter.db_info.driver_short}}",
             {%- else %}
             scheme="{{cookiecutter.db_info.driver}}",
             {%- endif %}

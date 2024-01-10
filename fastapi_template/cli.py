@@ -222,18 +222,6 @@ orm_menu = SingularMenuModel(
             ),
         ),
         MenuEntry(
-            code="tortoise",
-            user_view="Tortoise",
-            description=(
-                "{what} is a great {feature} ORM.\n"
-                "It's easy to use, it has it's own migration tooling.".format(
-                    what=colored("Tortoise", color="green"),
-                    feature=colored("fully-async", color="cyan"),
-                )
-            ),
-            is_hidden=always_hidden(),
-        ),
-        MenuEntry(
             code="psycopg",
             user_view="PsycoPG",
             # is_hidden=check_db(["postgresql"]),
