@@ -63,8 +63,6 @@ Generator features:
 - Pre-commit integration;
 - Generated tests with almost 90% coverage;
 - Tests for the generator itself;
-- Optional Prometheus integration;
-- Optional Sentry integration;
 - Optional Loguru logger;
 - Optional Opentelemetry integration.
 - Optional taskiq integration.
@@ -93,8 +91,6 @@ Options:
   --dummy                         Add dummy model
   --routers                       Add example routers
   --swagger                       Add self hosted swagger
-  --prometheus                    Add prometheus compatible metrics
-  --sentry                        Add sentry integration
   --loguru                        Add loguru logger
   --opentelemetry                 Add opentelemetry integration
   --traefik                       Adds traefik labels to docker container

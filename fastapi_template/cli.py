@@ -343,36 +343,6 @@ features_menu = MultiselectMenuModel(
             ),
         ),
         MenuEntry(
-            code="prometheus_enabled",
-            cli_name="prometheus",
-            user_view="Add prometheus compatible metrics",
-            is_hidden=always_hidden(),
-            description=(
-                "{name} is a system that can collect metrics.\n"
-                "This option will add a {path} route where you can find you app's metrics.".format(
-                    name=colored("Prometheus", color="green"),
-                    path=colored("`/metrics`", color="blue"),
-                )
-            ),
-        ),
-        MenuEntry(
-            code="sentry_enabled",
-            cli_name="sentry",
-            user_view="Add sentry integration",
-            is_hidden=always_hidden(),
-            description=(
-                "{what} is super cool system that helps finding bugs.\n"
-                "This feature will add sentry integration to your project. ({warn}).".format(
-                    what=colored("Sentry", color="green"),
-                    warn=colored(
-                        "This option may decrease speed",
-                        color="red",
-                        attrs=["underline"],
-                    ),
-                )
-            ),
-        ),
-        MenuEntry(
             code="enable_loguru",
             cli_name="loguru",
             user_view="Add loguru logger",

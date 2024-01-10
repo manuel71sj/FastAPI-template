@@ -10,18 +10,6 @@ from importlib import metadata
 from {{cookiecutter.project_name}}.web.lifetime import (register_shutdown_event,
                                                         register_startup_event)
 
-
-{%- if cookiecutter.sentry_enabled == "True" %}
-import sentry_sdk
-from sentry_sdk.integrations.fastapi import FastApiIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
-
-{%- if cookiecutter.orm == "sqlalchemy" %}
-from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
-
-{%- endif %}
-{%- endif %}
-
 from starlette.middleware.base import BaseHTTPMiddleware
 
 {%- if cookiecutter.enable_loguru == "True" %}
@@ -50,27 +38,7 @@ def get_app() -> FastAPI:
     {%- if cookiecutter.enable_loguru == "True" %}
     configure_logging()
     {%- endif %}
-    {%- if cookiecutter.sentry_enabled == "True" %}
-    if settings.sentry_dsn:
-        # Enables sentry integration.
-        sentry_sdk.init(
-            dsn=settings.sentry_dsn,
-            traces_sample_rate=settings.sentry_sample_rate,
-            environment=settings.environment,
-            integrations=[
-                FastApiIntegration(transaction_style="endpoint"),
-                LoggingIntegration(
-                    level=logging.getLevelName(
-                        settings.log_level.value,
-                    ),
-                    event_level=logging.ERROR,
-                ),
-                {%- if cookiecutter.orm == "sqlalchemy" %}
-                SqlalchemyIntegration(),
-                {%- endif %}
-            ],
-        )
-    {%- endif %}
+
     app = FastAPI(
         title="{{cookiecutter.project_name}}",
         version=metadata.version("{{cookiecutter.project_name}}"),

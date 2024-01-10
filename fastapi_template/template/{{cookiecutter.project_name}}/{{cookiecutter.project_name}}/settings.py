@@ -91,25 +91,6 @@ class Settings(BaseSettings):
 
     {%- endif %}
 
-
-    {%- if cookiecutter.prometheus_enabled == "True" %}
-
-    # This variable is used to define
-    # multiproc_dir. It's required for [uvi|guni]corn projects.
-    prometheus_dir: Path = TEMP_DIR / "prom"
-
-    {%- endif %}
-
-
-    {%- if cookiecutter.sentry_enabled == "True" %}
-
-    # Sentry's configuration.
-    sentry_dsn: str | None = None
-    sentry_sample_rate: float = 1.0
-
-    {%- endif %}
-
-
     {%- if cookiecutter.otlp_enabled == "True" %}
 
     # Grpc endpoint for opentelemetry.

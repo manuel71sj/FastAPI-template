@@ -50,13 +50,6 @@ httptools = "^0.6.0"
 {%- if cookiecutter.enable_rmq == "True" %}
 aio-pika = "^9.1.4"
 {%- endif %}
-{%- if cookiecutter.prometheus_enabled == "True" %}
-prometheus-client = "^0.17.0"
-prometheus-fastapi-instrumentator = "6.0.0"
-{%- endif %}
-{%- if cookiecutter.sentry_enabled == "True" %}
-sentry-sdk = "^1.27.1"
-{%- endif %}
 {%- if cookiecutter.otlp_enabled == "True" %}
 opentelemetry-api = "^1.22.0"
 opentelemetry-sdk = "^1.22.0"
@@ -163,9 +156,6 @@ filterwarnings = [
 env = [
     "{{cookiecutter.project_name | upper}}_ENVIRONMENT=pytest",
     "{{cookiecutter.project_name | upper}}_DB_BASE={{cookiecutter.project_name}}_test",
-    {%- if cookiecutter.sentry_enabled == "True" %}
-    "{{cookiecutter.project_name | upper}}_SENTRY_DSN=",
-    {%- endif %}
 ]
 
 [tool.black]

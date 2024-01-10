@@ -4,12 +4,6 @@ from typing import Awaitable, Callable
 from fastapi import FastAPI
 from {{cookiecutter.project_name}}.settings import settings
 
-{%- if cookiecutter.prometheus_enabled == "True" %}
-from prometheus_fastapi_instrumentator.instrumentation import \
-    PrometheusFastApiInstrumentator
-
-{%- endif %}
-
 {%- if cookiecutter.enable_redis == "True" %}
 from {{cookiecutter.project_name}}.services.redis.lifetime import (init_redis,
                                                                    shutdown_redis)
@@ -140,9 +134,6 @@ def setup_opentelemetry(app: FastAPI) -> None:  # pragma: no cover
         app.url_path_for('swagger_ui_html'),
         app.url_path_for('swagger_ui_redirect'),
         app.url_path_for('redoc_html'),
-        {%- if cookiecutter.prometheus_enabled == "True" %}
-        "/metrics",
-        {%- endif %}
     ]
 
     FastAPIInstrumentor().instrument_app(
@@ -199,19 +190,6 @@ def stop_opentelemetry(app: FastAPI) -> None:  # pragma: no cover
 
 {%- endif %}
 
-{%- if cookiecutter.prometheus_enabled == "True" %}
-def setup_prometheus(app: FastAPI) -> None:  # pragma: no cover
-    """
-    Enables prometheus integration.
-
-    :param app: current application.
-    """
-    PrometheusFastApiInstrumentator(should_group_status_codes=False).instrument(
-        app,
-    ).expose(app, should_gzip=True, name="prometheus_metrics")
-{%- endif %}
-
-
 def register_startup_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # pragma: no cover
     """
     Actions to run on application startup.
@@ -249,9 +227,6 @@ def register_startup_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # pr
         {%- endif %}
         {%- if cookiecutter.enable_kafka == "True" %}
         await init_kafka(app)
-        {%- endif %}
-        {%- if cookiecutter.prometheus_enabled == "True" %}
-        setup_prometheus(app)
         {%- endif %}
         app.middleware_stack = app.build_middleware_stack()
         pass  # noqa: WPS420
