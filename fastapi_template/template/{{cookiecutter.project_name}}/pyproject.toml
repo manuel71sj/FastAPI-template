@@ -62,19 +62,6 @@ mysqlclient = "^2.2.0"
 cryptography = "^41.0.1"
 {%- endif %}
 {%- endif %}
-{%- if cookiecutter.orm == "ormar" %}
-ormar = "^0.12.2"
-{%- if cookiecutter.enable_migrations == "True" %}
-alembic = "^1.11.1"
-{%- endif %}
-{%- if cookiecutter.db_info.name == "postgresql" %}
-asyncpg = "^0.29.0"
-psycopg2-binary = "^2.9.6"
-{%- elif cookiecutter.db_info.name == "mysql" %}
-aiomysql = "^0.2.0"
-mysqlclient = "^2.2.0"
-{%- endif %}
-{%- endif %}
 {%- if cookiecutter.enable_redis == "True" %}
 redis = {version = "^5.0.1", extras = ["hiredis"]}
 {%- endif %}
@@ -107,7 +94,7 @@ opentelemetry-instrumentation-logging = "^0.43b0"
 {%- if cookiecutter.enable_redis == "True" %}
 opentelemetry-instrumentation-redis = "^0.43b0"
 {%- endif %}
-{%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["ormar", "tortoise"] %}
+{%- if cookiecutter.db_info.name == "postgresql" %}
 opentelemetry-instrumentation-asyncpg = "^0.43b0"
 {%- endif %}
 {%- if cookiecutter.orm == "sqlalchemy" %}

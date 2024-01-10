@@ -67,7 +67,7 @@ spec:
       - name: migrator
         image: {{cookiecutter.project_name}}:latest
         command:
-          {%- if cookiecutter.orm in ['sqlalchemy', 'ormar'] %}
+          {%- if cookiecutter.orm in ['sqlalchemy'] %}
           - "alembic"
           - "upgrade"
           - "head"

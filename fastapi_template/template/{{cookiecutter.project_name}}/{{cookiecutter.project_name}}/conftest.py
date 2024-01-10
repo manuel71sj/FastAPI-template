@@ -50,10 +50,6 @@ from tortoise.contrib.test import finalizer, initializer
 from {{cookiecutter.project_name}}.db.config import MODELS_MODULES, TORTOISE_CONFIG
 
 nest_asyncio.apply()
-{%- elif cookiecutter.orm == "ormar" %}
-from sqlalchemy.engine import create_engine
-from {{cookiecutter.project_name}}.db.config import database
-from {{cookiecutter.project_name}}.db.utils import create_database, drop_database
 
 {%- elif cookiecutter.orm == "psycopg" %}
 from psycopg import AsyncConnection
@@ -154,35 +150,6 @@ async def initialize_db() -> AsyncGenerator[None, None]:
 
     await Tortoise.close_connections()
     finalizer()
-
-{%- elif cookiecutter.orm == "ormar" %}
-
-@pytest.fixture(autouse=True)
-async def initialize_db() -> AsyncGenerator[None, None]:
-    """
-    Create models and databases.
-
-    :yield: new engine.
-    """
-    from {{cookiecutter.project_name}}.db.meta import meta  # noqa: WPS433
-    from {{cookiecutter.project_name}}.db.models import load_all_models  # noqa: WPS433
-
-    load_all_models()
-
-    create_database()
-
-    engine = create_engine(str(settings.db_url))
-    with engine.begin() as conn:
-        meta.create_all(conn)
-
-    engine.dispose()
-
-    await database.connect()
-
-    yield
-
-    await database.disconnect()
-    drop_database()
 
 {%- elif cookiecutter.orm == "psycopg" %}
 

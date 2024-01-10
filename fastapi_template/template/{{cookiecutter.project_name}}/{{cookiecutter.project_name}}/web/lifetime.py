@@ -34,17 +34,6 @@ from {{cookiecutter.project_name}}.tkq import broker
 {%- endif %}
 
 
-{%- if cookiecutter.orm == "ormar" %}
-from {{cookiecutter.project_name}}.db.config import database
-
-{%- if cookiecutter.db_info.name != "none" and cookiecutter.enable_migrations != "True" %}
-from sqlalchemy.engine import create_engine
-from {{cookiecutter.project_name}}.db.meta import meta
-from {{cookiecutter.project_name}}.db.models import load_all_models
-
-{%- endif %}
-{%- endif %}
-
 {%- if cookiecutter.otlp_enabled == "True" %}
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
@@ -58,7 +47,7 @@ from opentelemetry.trace import set_tracer_provider
 from opentelemetry.instrumentation.redis import RedisInstrumentor
 
 {%- endif %}
-{%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["ormar", "tortoise"] %}
+{%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["tortoise"] %}
 from opentelemetry.instrumentation.asyncpg import AsyncPGInstrumentor
 
 {%- endif %}
@@ -121,16 +110,11 @@ def _setup_db(app: FastAPI) -> None:  # pragma: no cover
 {%- endif %}
 
 {%- if cookiecutter.enable_migrations != "True" %}
-{%- if cookiecutter.orm in ["ormar", "sqlalchemy"] %}
+{%- if cookiecutter.orm in ["sqlalchemy"] %}
 async def _create_tables() -> None:  # pragma: no cover
     """Populates tables in the database."""
     load_all_models()
-    {%- if cookiecutter.orm == "ormar" %}
-    engine = create_engine(str(settings.db_url))
-    with engine.connect() as connection:
-        meta.create_all(connection)
-    engine.dispose()
-    {%- elif cookiecutter.orm == "sqlalchemy" %}
+    {%- if cookiecutter.orm == "sqlalchemy" %}
     engine = create_async_engine(str(settings.db_url))
     async with engine.begin() as connection:
         await connection.run_sync(meta.create_all)
@@ -189,7 +173,7 @@ def setup_opentelemetry(app: FastAPI) -> None:  # pragma: no cover
         tracer_provider=tracer_provider,
     )
     {%- endif %}
-    {%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["ormar", "tortoise"] %}
+    {%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["tortoise"] %}
     AsyncPGInstrumentor().instrument(
         tracer_provider=tracer_provider,
     )
@@ -229,7 +213,7 @@ def stop_opentelemetry(app: FastAPI) -> None:  # pragma: no cover
     {%- if cookiecutter.enable_redis == "True" %}
     RedisInstrumentor().uninstrument()
     {%- endif %}
-    {%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["ormar", "tortoise"] %}
+    {%- if cookiecutter.db_info.name == "postgresql" and cookiecutter.orm in ["tortoise"] %}
     AsyncPGInstrumentor().uninstrument()
     {%- endif %}
     {%- if cookiecutter.orm == "sqlalchemy" %}
@@ -274,13 +258,11 @@ def register_startup_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # pr
         {%- endif %}
         {%- if cookiecutter.orm == "sqlalchemy" %}
         _setup_db(app)
-        {%- elif cookiecutter.orm == "ormar" %}
-        await database.connect()
         {%- elif cookiecutter.orm == "psycopg" %}
         await _setup_db(app)
         {%- endif %}
         {%- if cookiecutter.db_info.name != "none" and cookiecutter.enable_migrations != "True" %}
-        {%- if cookiecutter.orm in ["ormar", "sqlalchemy"] %}
+        {%- if cookiecutter.orm in ["sqlalchemy"] %}
         await _create_tables()
         {%- endif %}
         {%- endif %}
@@ -321,8 +303,6 @@ def register_shutdown_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # p
         {%- endif %}
         {%- if cookiecutter.orm == "sqlalchemy" %}
         await app.state.db_engine.dispose()
-        {% elif cookiecutter.orm == "ormar" %}
-        await database.disconnect()
         {%- elif cookiecutter.orm == "psycopg" %}
         await app.state.db_pool.close()
         {%- endif %}

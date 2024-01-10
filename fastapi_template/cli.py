@@ -211,19 +211,6 @@ orm_menu = SingularMenuModel(
             ),
         ),
         MenuEntry(
-            code="ormar",
-            user_view="Ormar",
-            pydantic_v1=True,
-            description=(
-                "{what} is a great {feature} ORM.\n"
-                "It's compatible with pydantic models and alembic migrator.".format(
-                    what=colored("Ormar", color="green"),
-                    feature=colored("SQLAlchemy-based", color="cyan"),
-                )
-            ),
-            is_hidden=always_hidden(),
-        ),
-        MenuEntry(
             code="sqlalchemy",
             user_view="SQLAlchemy",
             description=(
