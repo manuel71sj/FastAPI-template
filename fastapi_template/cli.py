@@ -104,7 +104,8 @@ db_menu = SingularMenuModel(
         MenuEntry(
             code="none",
             user_view="No database",
-            description="This project doesn't need a database.",
+            description="This project doesn't need a database.\n{caution}".format(
+                caution=colored("!!! 주의 : 정상작동을 확인하지 못했습니다 !!!", color="red", attrs=["underline"])),
             additional_info=Database(
                 name="none",
                 image=None,
@@ -118,10 +119,11 @@ db_menu = SingularMenuModel(
             user_view="MySQL database",
             description=(
                 "{name} is the most popular database made by oracle.\n"
-                "It's a good fit for {prod} application.".format(
+                "It's a good fit for {prod} application.\n{caution}".format(
                     name=colored("MySQL", color="green"),
                     prod=colored("production-grade", color="cyan",
                                  attrs=["underline"]),
+                    caution=colored("!!! 주의 : 정상작동을 확인하지 못했습니다 !!!", color="red", attrs=["underline"]),
                 )
             ),
             additional_info=Database(
