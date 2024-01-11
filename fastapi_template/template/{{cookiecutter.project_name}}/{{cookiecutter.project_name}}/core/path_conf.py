@@ -11,4 +11,4 @@ Versions = os.path.join(BasePath, '{{cookiecutter.project_name}}', 'db', 'migrat
 LogPath = os.path.join(BasePath, 'log')
 
 # Static Path
-StaticPath = os.path.join(BasePath, 'static')
+StaticPath = os.path.join(BasePath, '{{cookiecutter.project_name}}', 'static')
