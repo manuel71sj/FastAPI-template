@@ -105,7 +105,7 @@ def register_startup_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # pr
             {%- endif %}
         {%- endif %}
         {%- if cookiecutter.enable_redis == "True" %}
-        init_redis(app)
+        await init_redis(app)
         {%- endif %}
         {%- if cookiecutter.enable_rmq == "True" %}
         init_rabbit(app)
@@ -114,7 +114,7 @@ def register_startup_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # pr
         await init_kafka(app)
         {%- endif %}
         app.middleware_stack = app.build_middleware_stack()
-        
+
         pass  # noqa: WPS420
 
     return _startup

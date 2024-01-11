@@ -102,9 +102,13 @@ class Settings(BaseSettings):
     # Static Server
     static_file: bool = True
 
+    # Middleware
     middleware_cors: bool = True
     middleware_gzip: bool = True
     middleware_access: bool = False
+
+    # Limiter
+    limiter_redis_prefix: str = '{{cookiecutter.project_name}}_limiter'
 
     @property
     def db_url(self) -> URL:
