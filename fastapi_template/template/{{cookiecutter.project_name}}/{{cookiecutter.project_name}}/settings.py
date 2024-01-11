@@ -139,7 +139,7 @@ class Settings(BaseSettings):
         if self.redis_base is not None:
             path = f"/{self.redis_base}"
         return URL.build(
-            scheme="redis",
+            scheme="rediss",
             host=self.redis_host,
             port=self.redis_port,
             user=self.redis_user,

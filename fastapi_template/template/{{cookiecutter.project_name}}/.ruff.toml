@@ -1,26 +1,21 @@
 line-length = 120
 target-version = "py311"
 cache-dir = "./.ruff_cache"
-
+src = ["{{cookiecutter.project_name}}",]
+preview = true
 select = [
-    "ARG",
-    "B",
-    "C4",
     "E",
-    "ERA",
     "F",
     "I",
-    "N",
-    "PLC",
-    "PLE",
-    "PLR",
-    "PLW",
-    "RET",
-    "S",
-    "T10",
-    "T10",
-    "UP",
-    "W",
+    "W505",
+    "SIM101",
+    "SIM114",
+    "PGH004",
+    "PLE1142",
+    "RUF100",
+    "F404",
+    "TCH",
+    "UP007"
 ]
 
 ignore = [
@@ -47,12 +42,14 @@ exclude = [
 
 [lint.isort]
 lines-between-types = 1
+order-by-type = true
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
 [per-file-ignores]
 "__init__.py" = ["F401"]
-"*/tests/test_*.py" = ["ARG", "PLR2004", "S", "S101"]
 "db/models/*.py" = ["TCH003"]
-#"backend/app/api/v1/*.py" = ["TCH"]
+"test_*.py" = ["ARG", "PLR2004", "S", "S101"]
 
 [format]
 quote-style = "single"
+preview = true

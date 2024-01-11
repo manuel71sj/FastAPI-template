@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
+from fastapi_cache.decorator import cache
 from redis.asyncio import ConnectionPool, Redis
+
 from {{cookiecutter.project_name}}.services.redis.dependency import get_redis_pool
 from {{cookiecutter.project_name}}.web.api.redis.schema import RedisValueDTO
 
@@ -8,6 +10,7 @@ router = APIRouter()
 
 
 @router.get("/", response_model=RedisValueDTO)
+@cache(namespace='redis', expire=60)
 async def get_redis_value(
     key: str,
     redis_pool: ConnectionPool = Depends(get_redis_pool),   # noqa : B008

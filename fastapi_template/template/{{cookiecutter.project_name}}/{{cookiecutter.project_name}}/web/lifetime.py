@@ -114,6 +114,7 @@ def register_startup_event(app: FastAPI) -> Callable[[], Awaitable[None]]:  # pr
         await init_kafka(app)
         {%- endif %}
         app.middleware_stack = app.build_middleware_stack()
+        
         pass  # noqa: WPS420
 
     return _startup

@@ -41,7 +41,8 @@ mysqlclient = "^2.2.1"
     {%- endif %}
 {%- endif %}
 {%- if cookiecutter.enable_redis == "True" %}
-redis = {version = "^5.0.1", extras = ["hiredis"]}
+fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
+# redis = {version = "^5.0.1", extras = ["hiredis"]}
 {%- endif %}
 {%- if cookiecutter.self_hosted_swagger == 'True' %}
 aiofiles = "^23.1.0"
