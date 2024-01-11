@@ -1,4 +1,4 @@
-import redis.asyncio as redis
+import redis.asyncio as redis     # type: ignore
 
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
