@@ -129,3 +129,7 @@ def uuid7() -> UUID:
     uuid_int |= subsec_b << 54
     uuid_int |= rand
     return UUID(int=uuid_int, version=7)
+
+
+def get_uuid7_str() -> str:
+    return str(uuid7())

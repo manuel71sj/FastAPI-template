@@ -110,6 +110,11 @@ class Settings(BaseSettings):
     # Limiter
     limiter_redis_prefix: str = '{{cookiecutter.project_name}}_limiter'
 
+    # DateTime
+    datetime_timezone: str = 'Asia/Seoul'
+    use_tz: bool = False
+    datetime_format: str = '%Y-%m-%d %H:%M:%S'
+    
     @property
     def db_url(self) -> URL:
         """

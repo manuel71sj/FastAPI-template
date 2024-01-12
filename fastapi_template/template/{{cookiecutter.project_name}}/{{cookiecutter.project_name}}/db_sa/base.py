@@ -2,7 +2,8 @@ from datetime import datetime
 from uuid import UUID
 
 from {{cookiecutter.project_name}}.utils.strings import to_snake_case
-from {{cookiecutter.project_name}}.utils.uuid6 import uuid7
+from {{cookiecutter.project_name}}.utils.timezone import timezone
+from {{cookiecutter.project_name}}.utils.uuid6 import get_uuid7_str
 from sqlalchemy.orm import declared_attr
 from sqlmodel import Field
 from sqlmodel import SQLModel as _SQLModel
@@ -22,14 +23,16 @@ class Base(SQLModel):
 
 
 class BaseUUIDModel(Base):
-    id: UUID = Field(
-        default_factory=uuid7,
-        primary_key=True,
-        index=True,
-        nullable=False,
-    )
+    id: UUID = Field(default_factory=get_uuid7_str, primary_key=True, index=True, nullable=False, description='pkID')
+
     updated_at: datetime | None = Field(
-        default_factory=datetime.utcnow,
-        sa_column_kwargs={'onupdate': datetime.utcnow},
+        exclude=True,
+        sa_column_kwargs={'onupdate': timezone.now},
+        description='Updated at',
     )
-    created_at: datetime | None = Field(default_factory=datetime.utcnow)
+    created_at: datetime | None = Field(
+        exclude=True,
+        default_factory=timezone.now,
+        # sa_column_kwargs={'default_factory': timezone.now},
+        description='Created at',
+    )

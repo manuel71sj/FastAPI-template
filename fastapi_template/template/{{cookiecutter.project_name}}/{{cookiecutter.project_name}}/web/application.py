@@ -9,6 +9,7 @@ from {{cookiecutter.project_name}}.logging import configure_logging
 from {{cookiecutter.project_name}}.web.api.router import api_router
 from {{cookiecutter.project_name}}.web.lifetime import (
     register_middleware,
+    register_page,
     register_shutdown_event,
     register_startup_event,
     register_static_file,
@@ -38,7 +39,7 @@ def get_app() -> FastAPI:
         redoc_url="/api/redoc",
         {%- endif %}
         openapi_url="/api/openapi.json",
-        default_response_class=UJSONResponse,
+        # default_response_class=UJSONResponse,
     )
 
     # Adds static directory.
@@ -51,6 +52,11 @@ def get_app() -> FastAPI:
     # Adds startup and shutdown events.
     register_startup_event(app)
     register_shutdown_event(app)
+
+    # Pagenation
+    register_page(app)
+
+
 
     # Main router for the API.
     app.include_router(router=api_router, prefix="/api")

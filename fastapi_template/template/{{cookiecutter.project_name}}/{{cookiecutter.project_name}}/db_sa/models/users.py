@@ -22,6 +22,9 @@ class User(SQLModelBaseUserDB, BaseUUIDModel, table=True):
     email: str = Field(max_length=50, unique=True, index=True, description='E-mail')
     """Represents a user entity."""
 
+    class ConfigDict:
+        from_attributes = True
+
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
     """Represents a read command for a user."""

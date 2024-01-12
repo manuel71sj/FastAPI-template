@@ -1,9 +1,15 @@
+from typing import Any
 from typing import List
 
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
 from loguru import logger
+from sqlmodel.ext.asyncio.session import AsyncSession
+
+from {{cookiecutter.project_name}}.common.pagination import PageDepends, paging_data
+from {{cookiecutter.project_name}}.common.response.response_schema import response_base
 from {{cookiecutter.project_name}}.db.dao.dummy_dao import DummyDAO
+from {{cookiecutter.project_name}}.db.meta import async_engine
 from {{cookiecutter.project_name}}.db.models.dummy_model import DummyModel
 from {{cookiecutter.project_name}}.web.api.dummy.schema import (DummyModelDTO,
                                                                 DummyModelInputDTO)
@@ -35,6 +41,19 @@ async def get_dummy_models(
     ).info("get_dummy_models 天")
 
     return await dummy_dao.get_all_dummies(limit=limit, offset=offset)
+
+
+@logger.catch
+@router.get(
+    '/list',
+    # response_model=list[DummyModelDTO],
+    dependencies=[PageDepends],
+)
+async def get_pageed_dummy_model() -> dict[str, Any]:
+    async with AsyncSession(async_engine) as db:
+        all_data = await DummyDAO.get_all_dummies_without_pagination(db)
+        page_data = await paging_data(db, all_data, DummyModelDTO)
+    return await response_base.success(data=page_data)
 
 
 @router.put("/")

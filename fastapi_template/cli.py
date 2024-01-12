@@ -186,7 +186,7 @@ ci_menu = SingularMenuModel(
                         attrs=["underline"],
                     ),
                 )
-            )ㄹ
+            )
         ),
     ],
 )
@@ -220,7 +220,7 @@ orm_menu = SingularMenuModel(
                     what=colored("SQLAlchemy", color="green"),
                     feature=colored("great documentation", color="cyan"),
                     sqlmodel=colored("SQLModel", color="yellow"),
-                ).결ㄹ
+                )
             ),
         ),
     ],

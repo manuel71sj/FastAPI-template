@@ -2,15 +2,18 @@ import logging
 from typing import Awaitable, Callable
 
 from fastapi import FastAPI
+from fastapi_pagination import add_pagination
+
 from {{cookiecutter.project_name}}.settings import settings
 from {{cookiecutter.project_name}}.core import path_conf
+from {{cookiecutter.project_name}}.db.meta import async_engine
+
 {%- if cookiecutter.enable_loguru == "True" %}
 from {{cookiecutter.project_name}}.middleware.log_middleware import log_request_middleware
 {% endif %}
 
 {%- if cookiecutter.enable_redis == "True" %}
-from {{cookiecutter.project_name}}.services.redis.lifetime import (init_redis,
-                                                                   shutdown_redis)
+from {{cookiecutter.project_name}}.services.redis.lifetime import init_redis, shutdown_redis
 {%- endif %}
 
 {%- if cookiecutter.enable_rmq == "True" %}
@@ -35,8 +38,9 @@ from {{cookiecutter.project_name}}.settings import settings
 
 
 {%- if cookiecutter.orm == "sqlalchemy" %}
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.orm import sessionmaker
+from sqlmodel.ext.asyncio.session import AsyncSession
 
     {%- if cookiecutter.enable_migrations != "True" %}
 from {{cookiecutter.project_name}}.db.meta import meta
@@ -54,13 +58,9 @@ def _setup_db(app: FastAPI) -> None:  # pragma: no cover
 
     :param app: fastAPI application.
     """
-    engine = create_async_engine(str(settings.db_url), echo=settings.db_echo)
-    session_factory = async_sessionmaker(
-        engine,
-        expire_on_commit=False,
-    )
+    session_factory = async_sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
 
-    app.state.db_engine = engine
+    app.state.db_engine = async_engine
     app.state.db_session_factory = session_factory
 {%- endif %}
 
@@ -70,8 +70,8 @@ async def _create_tables() -> None:  # pragma: no cover
     """Populates tables in the database."""
     load_all_models()
         {%- if cookiecutter.orm == "sqlalchemy" %}
-    engine = create_async_engine(str(settings.db_url))
-    async with engine.begin() as connection:
+    engine = async_engine
+    async with async_engine.begin() as connection:
         await connection.run_sync(meta.create_all)
     await engine.dispose()
         {%- endif %}
@@ -166,6 +166,7 @@ def register_static_file(app: FastAPI) -> None:
 
         if not os.path.exists(path_conf.StaticPath):
             os.makedirs(path_conf.StaticPath)
+
         app.mount('/static', StaticFiles(directory=path_conf.StaticPath), name='static')
 
 
@@ -193,3 +194,13 @@ def register_middleware(app: FastAPI) -> None:
             allow_methods=['*'],
             allow_headers=['*'],
         )
+
+
+def register_page(app: FastAPI) -> None:
+    """
+    페이징 검색
+
+    :param app:
+    :return:
+    """
+    add_pagination(app)
