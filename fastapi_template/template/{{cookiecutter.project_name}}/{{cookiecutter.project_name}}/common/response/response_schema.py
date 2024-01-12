@@ -87,11 +87,12 @@ class ResponseBase:
         *,
         code: int = 400,
         msg: str = 'Bad Request',
-        data: Any = None,
+        data: Any | None = None,
         exclude: _ExcludeData | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         data = data if data is None else await self.__json_encoder(data, exclude, **kwargs)
+        
         return {'code': code, 'msg': msg, 'data': data}
 
 

@@ -9,7 +9,7 @@ from fastapi.exceptions import ValidationException
 from pydantic import BaseModel, ConfigDict, PydanticUserError, ValidationError
 from pydantic_core import ErrorDetails
 
-CUSTOM_VALIDATION_ERROR_MESSAGES = {
+CUSTOM_VALIDATION_ERROR_MESSAGES: dict[str, str] = {
     'arguments_type': '매개 변수 유형 입력 오류',
     'assertion_error': '어설션 실행 오류',
     'bool_parsing': '부울 입력 구문 분석 오류',
@@ -106,7 +106,7 @@ CUSTOM_VALIDATION_ERROR_MESSAGES = {
     'value_error': '값 입력 오류',
 }
 
-CUSTOM_USAGE_ERROR_MESSAGES = {
+CUSTOM_USAGE_ERROR_MESSAGES: dict[str, str] = {
     'class-not-fully-defined': '클래스 속성 유형이 완전히 정의되지 않음',
     'custom-json-schema': '__modify_schema__ 메서드는 V2에서 더 이상 사용되지 않습니다.',
     'decorator-missing-field': '잘못된 필드 유효성 검사기가 정의되었습니다.',

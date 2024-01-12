@@ -3,6 +3,7 @@ from importlib import metadata
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 
+from {{cookiecutter.project_name}}.common.exception.exception_handler import register_exception
 {%- if cookiecutter.enable_loguru == "True" %}
 from {{cookiecutter.project_name}}.logging import configure_logging
 {%- endif %}
@@ -53,12 +54,13 @@ def get_app() -> FastAPI:
     register_startup_event(app)
     register_shutdown_event(app)
 
+    # Main router for the API.
+    app.include_router(router=api_router, prefix='/api')
+
     # Pagenation
     register_page(app)
 
-
-
-    # Main router for the API.
-    app.include_router(router=api_router, prefix="/api")
+    # Global exception handler.
+    register_exception(app)
 
     return app
