@@ -1,7 +1,8 @@
 from math import ceil
 from typing import Any
 
-from fastapi import Request, Response
+from fastapi import FastAPI, Request, Response
+from fastapi.routing import APIRoute
 
 from {{cookiecutter.project_name}}.common.exception import errors
 
@@ -28,3 +29,17 @@ async def http_limit_callback(
             'Retry-After': str(expires),
         },
     )
+
+
+def ensure_unique_route_names(app: FastAPI) -> None:
+    """
+    Ensure that all routes have unique names.
+
+    :param app: current FastAPI app.
+    """
+    temp_routes = set()
+    for route in app.routes:
+        if isinstance(route, APIRoute):
+            if route.name in temp_routes:
+                raise ValueError(f'Non-unique route name: {route.name}')
+            temp_routes.add(route.name)

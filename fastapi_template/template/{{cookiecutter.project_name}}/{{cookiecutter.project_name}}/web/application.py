@@ -7,10 +7,10 @@ from {{cookiecutter.project_name}}.common.exception.exception_handler import reg
 {%- if cookiecutter.enable_loguru == "True" %}
 from {{cookiecutter.project_name}}.logging import configure_logging
 {%- endif %}
-from {{cookiecutter.project_name}}.web.api.router import api_router
 from {{cookiecutter.project_name}}.web.lifetime import (
     register_middleware,
     register_page,
+    register_router
     register_shutdown_event,
     register_startup_event,
     register_static_file,
@@ -55,7 +55,7 @@ def get_app() -> FastAPI:
     register_shutdown_event(app)
 
     # Main router for the API.
-    app.include_router(router=api_router, prefix='/api')
+    register_router(app)
 
     # Pagenation
     register_page(app)

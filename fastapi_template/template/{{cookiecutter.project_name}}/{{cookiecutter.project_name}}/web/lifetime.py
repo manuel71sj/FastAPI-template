@@ -36,6 +36,8 @@ from starlette.middleware.gzip import GZipMiddleware
 
 from {{cookiecutter.project_name}}.settings import settings
 
+from {{cookiecutter.project_name}}.utils.health_check import ensure_unique_route_names
+from {{cookiecutter.project_name}}.web.api.router import api_router
 
 {%- if cookiecutter.orm == "sqlalchemy" %}
 from sqlalchemy.ext.asyncio import async_sessionmaker
@@ -194,6 +196,18 @@ def register_middleware(app: FastAPI) -> None:
             allow_methods=['*'],
             allow_headers=['*'],
         )
+
+
+def register_router(app: FastAPI) -> None:
+    """
+    Register router.
+
+    :param app: fastAPI application.
+    :return: function that actually performs actions.
+    """
+    app.include_router(router=api_router, prefix='/api')
+
+    ensure_unique_route_names(app)
 
 
 def register_page(app: FastAPI) -> None:
