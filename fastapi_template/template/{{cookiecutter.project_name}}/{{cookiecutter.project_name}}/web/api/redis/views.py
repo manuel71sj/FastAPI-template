@@ -15,8 +15,7 @@ router = APIRouter()
     response_model=RedisValueDTO,
     dependencies=[
         Depends(RateLimiter(times=5, seconds=10)),
-    ],
-
+    ])
 @cache(namespace='redis', expire=60)
 async def get_redis_value(
     key: str,

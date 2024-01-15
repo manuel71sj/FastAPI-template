@@ -10,7 +10,7 @@ from {{cookiecutter.project_name}}.logging import configure_logging
 from {{cookiecutter.project_name}}.web.lifetime import (
     register_middleware,
     register_page,
-    register_router
+    register_router,
     register_shutdown_event,
     register_startup_event,
     register_static_file,

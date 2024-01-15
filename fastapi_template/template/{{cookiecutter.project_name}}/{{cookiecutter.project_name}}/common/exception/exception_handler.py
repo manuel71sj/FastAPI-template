@@ -131,7 +131,8 @@ def register_exception(app: FastAPI) -> None:
         return JSONResponse(
             status_code=500,
             content=await response_base.fail(
-                code=exc.code, msg=await convert_usage_errors(exc, CUSTOM_USAGE_ERROR_MESSAGES)  # type: ignore
+                code=exc.code,  # type: ignore
+                msg=await convert_usage_errors(exc, CUSTOM_USAGE_ERROR_MESSAGES)  
             ),
         )
 
