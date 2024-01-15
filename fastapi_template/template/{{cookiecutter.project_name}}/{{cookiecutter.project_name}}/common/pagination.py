@@ -74,4 +74,4 @@ async def paging_data(db: AsyncSession, select: Select, page_data_schema: Schema
 
 
 # 페이징 종속성 주입
-PageDepends = Depends(pagination_ctx(_Page))
+DependsPagination = Depends(pagination_ctx(_Page))

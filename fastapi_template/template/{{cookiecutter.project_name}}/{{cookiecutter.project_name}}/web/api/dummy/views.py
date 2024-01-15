@@ -6,7 +6,7 @@ from fastapi.param_functions import Depends
 from loguru import logger
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from {{cookiecutter.project_name}}.common.pagination import PageDepends, paging_data
+from {{cookiecutter.project_name}}.common.pagination import DependsPagination, paging_data
 from {{cookiecutter.project_name}}.common.response.response_schema import response_base
 from {{cookiecutter.project_name}}.db.dao.dummy_dao import DummyDAO
 from {{cookiecutter.project_name}}.db.meta import async_engine
@@ -47,7 +47,7 @@ async def get_dummy_models(
 @router.get(
     '/list',
     # response_model=list[DummyModelDTO],
-    dependencies=[PageDepends],
+    dependencies=[DependsPagination],
 )
 async def get_pageed_dummy_model() -> dict[str, Any]:
     async with AsyncSession(async_engine) as db:
